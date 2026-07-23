@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id               String        @id @default(cuid())
+  name             String?
+  email            String        @unique
+  passwordHash     String
+  stripeCustomerId String?       @unique
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  subscription     Subscription?
+}
+
+model Subscription {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeSubscriptionId  String   @unique
+  stripePriceId         String
+  status                String
+  currentPeriodEnd      DateTime
+  cancelAtPeriodEnd     Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+enum ContentCategory {
+  PHASE
+  NUTRITION
+  WORKOUT
+  LIFESTYLE
+}
+
+model Article {
+  id        String          @id @default(cuid())
+  category  ContentCategory
+  slug      String          @unique
+  title     String
+  summary   String?
+  body      String
+  order     Int             @default(0)
+  published Boolean         @default(true)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  @@index([category, order])
+}
+
+model FoodItem {
+  id          String   @id @default(cuid())
+  emoji       String?
+  name        String
+  description String
+  benefits    String[]
+  order       Int      @default(0)
+}
