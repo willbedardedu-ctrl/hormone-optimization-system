@@ -490,17 +490,15 @@
         } catch (err) { /* localStorage unavailable, ignore */ }
 
         // Send the lead to the "Coaching Leads" Google Sheet via an Apps
-        // Script web app endpoint. mode: 'no-cors' + a text/plain content
-        // type avoids a CORS preflight (which Apps Script doesn't handle),
-        // at the cost of not being able to read back the response — this
-        // is a fire-and-forget request.
+        // Script web app endpoint. This uses a GET request with the data
+        // as query params (rather than a POST body) because Apps Script's
+        // internal redirect downgrades POST to GET, which would otherwise
+        // invoke doGet with no data. mode: 'no-cors' means we can't read
+        // the response — this is a fire-and-forget request.
         if (SHEET_ENDPOINT && SHEET_ENDPOINT.indexOf('PASTE_YOUR') === -1) {
-            fetch(SHEET_ENDPOINT, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(answers)
-            }).catch(err => console.error('Lead submission failed:', err));
+            const params = new URLSearchParams(answers).toString();
+            fetch(SHEET_ENDPOINT + '?' + params, { method: 'GET', mode: 'no-cors' })
+                .catch(err => console.error('Lead submission failed:', err));
         } else {
             console.warn('SHEET_ENDPOINT is not configured; lead was only saved locally.');
         }

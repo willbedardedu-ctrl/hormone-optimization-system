@@ -22,9 +22,9 @@ from here.
 2. Delete any starter code and paste this in:
 
    ```javascript
-   function doPost(e) {
+   function doGet(e) {
      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-     var data = JSON.parse(e.postData.contents);
+     var data = e.parameter;
 
      sheet.appendRow([
        new Date(),
@@ -45,6 +45,11 @@ from here.
        .setMimeType(ContentService.MimeType.JSON);
    }
    ```
+
+   Note: this uses `doGet` (not `doPost`). Apps Script's own redirect
+   downgrades POST requests to GET before they reach your script, so the
+   site sends the lead data as URL query parameters instead of a POST
+   body — `doGet` with `e.parameter` is what actually receives it.
 
 3. Click **Deploy → New deployment**.
 4. Click the gear icon next to "Select type" → choose **Web app**.
@@ -75,3 +80,9 @@ If you ever redeploy the script (not just edit it — actually create a
 *new* deployment), you'll get a new URL and will need to update
 `SHEET_ENDPOINT` again. Editing the existing deployment's code and saving
 does **not** change the URL.
+
+**Important:** if you edit the script's code after it's already deployed,
+those changes do **not** take effect at the existing `/exec` URL until you
+push a new version. Go to **Deploy → Manage deployments**, click the
+pencil (edit) icon on the active deployment, set **Version** to
+**New version**, and click **Deploy** again. The URL stays the same.
