@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply for Coaching | Hormone Optimization</title>
+<style>
+    :root {
+        --primary: #1a1a1a;
+        --accent: #d4af37;
+        --bg: #0d0d0d;
+        --card-bg: #1c1c1c;
+        --text-main: #f2f2f2;
+        --text-muted: #a3a3a3;
+        --border: #333;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+        height: 100%;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--text-main);
+        line-height: 1.6;
+        background:
+            radial-gradient(circle at 20% 10%, rgba(212,175,55,0.12), transparent 45%),
+            radial-gradient(circle at 80% 90%, rgba(212,175,55,0.08), transparent 40%),
+            var(--bg);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 16px;
+    }
+
+    .brand {
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    .brand .kicker {
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-size: 0.75rem;
+        color: var(--accent);
+        font-weight: 700;
+    }
+
+    .brand h1 {
+        font-size: 1.9rem;
+        margin-top: 8px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 640px;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 36px 32px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .progress-track {
+        width: 100%;
+        height: 8px;
+        background: #2a2a2a;
+        border-radius: 999px;
+        overflow: hidden;
+        margin-bottom: 28px;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), #f0d878);
+        border-radius: 999px;
+        width: 0%;
+        transition: width 0.4s ease;
+    }
+
+    .step { display: none; animation: fadeIn 0.35s ease; }
+    .step.active { display: block; }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-eyebrow {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--text-muted);
+        margin-bottom: 10px;
+    }
+
+    .step h2 {
+        font-size: 1.4rem;
+        margin-bottom: 22px;
+        color: #fff;
+    }
+
+    .options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+
+    .option-btn {
+        text-align: left;
+        background: #232323;
+        border: 1px solid var(--border);
+        color: var(--text-main);
+        padding: 16px 18px;
+        border-radius: 10px;
+        font-size: 0.98rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .option-btn:hover { border-color: var(--accent); background: #2a2a2a; }
+
+    .option-btn.selected {
+        border-color: var(--accent);
+        background: rgba(212,175,55,0.15);
+        color: #fff;
+        font-weight: 600;
+    }
+
+    .yesno-row {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 28px;
+    }
+
+    .yesno-row .option-btn {
+        flex: 1;
+        text-align: center;
+    }
+
+    textarea, input[type="text"], input[type="email"], input[type="tel"] {
+        width: 100%;
+        background: #232323;
+        border: 1px solid var(--border);
+        color: var(--text-main);
+        padding: 14px 16px;
+        border-radius: 10px;
+        font-size: 0.98rem;
+        margin-bottom: 16px;
+        font-family: inherit;
+    }
+
+    textarea:focus, input:focus {
+        outline: none;
+        border-color: var(--accent);
+    }
+
+    textarea { min-height: 110px; resize: vertical; }
+
+    .field-label {
+        display: block;
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .nav-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-top: 8px;
+    }
+
+    .btn {
+        border: none;
+        border-radius: 999px;
+        padding: 13px 26px;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .btn-primary {
+        background: var(--accent);
+        color: #1a1a1a;
+        margin-left: auto;
+    }
+
+    .btn-primary:hover { background: #e6c458; }
+
+    .btn-primary:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .btn-ghost {
+        background: transparent;
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover { color: #fff; border-color: var(--text-muted); }
+
+    .error-msg {
+        color: #e07a7a;
+        font-size: 0.85rem;
+        margin: -8px 0 16px;
+        display: none;
+    }
+
+    .error-msg.visible { display: block; }
+
+    /* Thank you screen */
+    #thankyou { text-align: center; }
+    #thankyou .check {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #1a1a1a;
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+    }
+    #thankyou h2 { margin-bottom: 12px; }
+    #thankyou p { color: var(--text-muted); }
+
+    .summary {
+        text-align: left;
+        margin-top: 24px;
+        background: #232323;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px 20px;
+        font-size: 0.88rem;
+        color: var(--text-muted);
+    }
+    .summary strong { color: #fff; }
+    .summary div { margin-bottom: 6px; }
+
+    @media (max-width: 480px) {
+        .card { padding: 26px 20px; }
+        .step h2 { font-size: 1.2rem; }
+    }
+</style>
+</head>
+<body>
+
+<div class="brand">
+    <div class="kicker">Hormone Optimization Coaching</div>
+    <h1>Apply for 1:1 Coaching</h1>
+</div>
+
+<div class="card">
+    <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <form id="quiz">
+
+        <!-- Step 1: Age -->
+        <div class="step active" data-step="0">
+            <div class="step-eyebrow">Question 1 of 6</div>
+            <h2>What's your age range?</h2>
+            <div class="options" data-field="age">
+                <button type="button" class="option-btn" data-value="18-24">18 – 24</button>
+                <button type="button" class="option-btn" data-value="25-34">25 – 34</button>
+                <button type="button" class="option-btn" data-value="35-44">35 – 44</button>
+                <button type="button" class="option-btn" data-value="45+">45 and over</button>
+            </div>
+            <div class="nav-row">
+                <span></span>
+                <button type="button" class="btn btn-primary" data-next disabled>Next &rarr;</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Primary Goal -->
+        <div class="step" data-step="1">
+            <div class="step-eyebrow">Question 2 of 6</div>
+            <h2>What's your #1 goal right now?</h2>
+            <div class="options" data-field="goal">
+                <button type="button" class="option-btn" data-value="Increase testosterone naturally">Increase testosterone naturally</button>
+                <button type="button" class="option-btn" data-value="Lose fat and build lean muscle">Lose fat &amp; build lean muscle</button>
+                <button type="button" class="option-btn" data-value="Improve energy and sleep quality">Improve energy &amp; sleep quality</button>
+                <button type="button" class="option-btn" data-value="Boost libido and performance">Boost libido &amp; performance</button>
+                <button type="button" class="option-btn" data-value="Overall long-term health and longevity">Overall long-term health &amp; longevity</button>
+            </div>
+            <div class="nav-row">
+                <button type="button" class="btn btn-ghost" data-back>&larr; Back</button>
+                <button type="button" class="btn btn-primary" data-next disabled>Next &rarr;</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Commitment -->
+        <div class="step" data-step="2">
+            <div class="step-eyebrow">Question 3 of 6</div>
+            <h2>Coaching only works if you show up. Are you ready to commit 100% to a structured plan?</h2>
+            <div class="yesno-row" data-field="committed">
+                <button type="button" class="option-btn" data-value="Yes">Yes</button>
+                <button type="button" class="option-btn" data-value="No">No</button>
+            </div>
+            <div class="nav-row">
+                <button type="button" class="btn btn-ghost" data-back>&larr; Back</button>
+                <button type="button" class="btn btn-primary" data-next disabled>Next &rarr;</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Biggest obstacle -->
+        <div class="step" data-step="3">
+            <div class="step-eyebrow">Question 4 of 6</div>
+            <h2>What's the biggest thing holding you back from reaching your goal?</h2>
+            <textarea data-field="obstacle" placeholder="e.g. inconsistent sleep, no clear plan, low energy in the gym..."></textarea>
+            <div class="error-msg" data-error="obstacle">Please share a few words so we understand your situation.</div>
+            <div class="nav-row">
+                <button type="button" class="btn btn-ghost" data-back>&larr; Back</button>
+                <button type="button" class="btn btn-primary" data-next>Next &rarr;</button>
+            </div>
+        </div>
+
+        <!-- Step 5: Investment level -->
+        <div class="step" data-step="4">
+            <div class="step-eyebrow">Question 5 of 6</div>
+            <h2>What level of investment are you ready to make in your health?</h2>
+            <div class="options" data-field="budget">
+                <button type="button" class="option-btn" data-value="Just looking for something basic, budget under $200/mo">Just looking for something basic, budget under $200/mo</button>
+                <button type="button" class="option-btn" data-value="Budget is tight, but I'm committed if results are guaranteed">Budget is tight, but I'm committed if results are guaranteed</button>
+                <button type="button" class="option-btn" data-value="My goals matter to me, I'm ready to invest fully">My goals matter to me, I'm ready to invest fully</button>
+            </div>
+            <div class="nav-row">
+                <button type="button" class="btn btn-ghost" data-back>&larr; Back</button>
+                <button type="button" class="btn btn-primary" data-next disabled>Next &rarr;</button>
+            </div>
+        </div>
+
+        <!-- Step 6: Contact Info -->
+        <div class="step" data-step="5">
+            <div class="step-eyebrow">Question 6 of 6</div>
+            <h2>Almost done — where should we send your results?</h2>
+
+            <label class="field-label" for="fullName">Full name</label>
+            <input type="text" id="fullName" data-field="name" placeholder="Your full name">
+            <div class="error-msg" data-error="name">Please enter your name.</div>
+
+            <label class="field-label" for="email">Email</label>
+            <input type="email" id="email" data-field="email" placeholder="you@example.com">
+            <div class="error-msg" data-error="email">Please enter a valid email.</div>
+
+            <label class="field-label" for="phone">Phone</label>
+            <input type="tel" id="phone" data-field="phone" placeholder="(555) 123-4567">
+            <div class="error-msg" data-error="phone">Please enter your phone number.</div>
+
+            <label class="field-label" for="instagram">Instagram handle (optional)</label>
+            <input type="text" id="instagram" data-field="instagram" placeholder="@yourhandle">
+
+            <div class="nav-row">
+                <button type="button" class="btn btn-ghost" data-back>&larr; Back</button>
+                <button type="submit" class="btn btn-primary">Submit Application &rarr;</button>
+            </div>
+        </div>
+
+    </form>
+
+    <!-- Thank you -->
+    <div id="thankyou" style="display:none;">
+        <div class="check">&#10003;</div>
+        <h2>Application received</h2>
+        <p>Thanks for sharing your goals — a coach will review your answers and reach out within 24 hours.</p>
+        <div class="summary" id="summaryBox"></div>
+    </div>
+</div>
+
+<script>
+(function () {
+    const steps = Array.from(document.querySelectorAll('.step'));
+    const progressFill = document.getElementById('progressFill');
+    const form = document.getElementById('quiz');
+    const answers = {};
+    let current = 0;
+
+    function updateProgress() {
+        const pct = ((current) / (steps.length - 1)) * 100;
+        progressFill.style.width = Math.min(pct, 100) + '%';
+    }
+
+    function showStep(index) {
+        steps.forEach(s => s.classList.remove('active'));
+        steps[index].classList.add('active');
+        current = index;
+        updateProgress();
+    }
+
+    // Single-select option buttons (goal, age, budget, yes/no)
+    document.querySelectorAll('[data-field]').forEach(group => {
+        if (group.tagName === 'DIV' && group.classList.contains('options') || group.classList.contains('yesno-row')) {
+            const field = group.getAttribute('data-field');
+            group.querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    group.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    answers[field] = btn.getAttribute('data-value');
+                    const stepEl = group.closest('.step');
+                    const nextBtn = stepEl.querySelector('[data-next]');
+                    if (nextBtn) nextBtn.disabled = false;
+                });
+            });
+        }
+    });
+
+    // Text/textarea fields just record on input
+    document.querySelectorAll('textarea[data-field], input[data-field]').forEach(input => {
+        input.addEventListener('input', () => {
+            answers[input.getAttribute('data-field')] = input.value.trim();
+        });
+    });
+
+    document.querySelectorAll('[data-next]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const stepEl = btn.closest('.step');
+            const idx = parseInt(stepEl.getAttribute('data-step'), 10);
+
+            // Validate free-text obstacle step
+            if (idx === 3) {
+                const val = (answers.obstacle || '').trim();
+                const err = stepEl.querySelector('[data-error="obstacle"]');
+                if (!val) {
+                    err.classList.add('visible');
+                    return;
+                }
+                err.classList.remove('visible');
+            }
+
+            if (idx < steps.length - 1) showStep(idx + 1);
+        });
+    });
+
+    document.querySelectorAll('[data-back]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const stepEl = btn.closest('.step');
+            const idx = parseInt(stepEl.getAttribute('data-step'), 10);
+            if (idx > 0) showStep(idx - 1);
+        });
+    });
+
+    function isValidEmail(v) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        let valid = true;
+        const checks = [
+            ['name', v => v && v.trim().length > 0],
+            ['email', v => isValidEmail(v || '')],
+            ['phone', v => v && v.trim().length >= 7]
+        ];
+
+        checks.forEach(([field, fn]) => {
+            const err = document.querySelector('[data-error="' + field + '"]');
+            if (!fn(answers[field])) {
+                if (err) err.classList.add('visible');
+                valid = false;
+            } else if (err) {
+                err.classList.remove('visible');
+            }
+        });
+
+        if (!valid) return;
+
+        // Persist the lead locally. Wire this up to your CRM / email
+        // service by replacing this block with a fetch() POST call.
+        try {
+            const leads = JSON.parse(localStorage.getItem('coachingLeads') || '[]');
+            leads.push({ ...answers, submittedAt: new Date().toISOString() });
+            localStorage.setItem('coachingLeads', JSON.stringify(leads));
+        } catch (err) { /* localStorage unavailable, ignore */ }
+
+        form.style.display = 'none';
+        progressFill.style.width = '100%';
+
+        const summaryBox = document.getElementById('summaryBox');
+        summaryBox.innerHTML = `
+            <div><strong>Goal:</strong> ${escapeHtml(answers.goal || '-')}</div>
+            <div><strong>Age:</strong> ${escapeHtml(answers.age || '-')}</div>
+            <div><strong>Investment level:</strong> ${escapeHtml(answers.budget || '-')}</div>
+            <div><strong>Contact:</strong> ${escapeHtml(answers.name || '-')} &middot; ${escapeHtml(answers.email || '-')} &middot; ${escapeHtml(answers.phone || '-')}</div>
+        `;
+        document.getElementById('thankyou').style.display = 'block';
+    });
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    showStep(0);
+})();
+</script>
+
+</body>
+</html>
