@@ -2,387 +2,342 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apply for Coaching | Hormone Optimization</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Apply for 1:1 Coaching — Trained by Will</title>
+<meta name="description" content="Apply for 1:1 hormone-first coaching with Will. A few quick questions about your goals, then a coach will follow up.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%23e5342a%22>&#9679;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-    :root {
-        --primary: #1a1a1a;
-        --accent: #d4af37;
-        --bg: #0d0d0d;
-        --card-bg: #1c1c1c;
-        --text-main: #f2f2f2;
-        --text-muted: #a3a3a3;
-        --border: #333;
+    :root{
+        --bg: #0a0a0b;
+        --bg-alt: #111113;
+        --bg-card: #161618;
+        --line: rgba(255,255,255,.09);
+        --line-strong: rgba(255,255,255,.16);
+        --text: #f2f1ee;
+        --text-dim: rgba(242,241,238,.62);
+        --text-faint: rgba(242,241,238,.38);
+        --accent: #e5342a;
+        --accent-dim: rgba(229,52,42,.15);
+        --accent-glow: rgba(229,52,42,.35);
+        --radius-sm: 10px;
+        --radius-md: 16px;
+        --radius-lg: 26px;
+        --font-display: 'Montserrat', sans-serif;
+        --font-body: 'Inter', sans-serif;
+        --ease: cubic-bezier(.16,.84,.44,1);
+        --container: 720px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *,*::before,*::after{ box-sizing: border-box; }
+    html{ scroll-behavior: smooth; }
+    body{
+        margin:0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size:16px;
+        line-height:1.6;
+        -webkit-font-smoothing: antialiased;
+        overflow-x:hidden;
+    }
+    img{ max-width:100%; display:block; }
+    a{ color:inherit; text-decoration:none; }
+    h1,h2,h3{ font-family: var(--font-display); font-weight:800; line-height:1.08; margin:0; letter-spacing:-.01em; }
+    p{ margin:0; }
+    .text-accent{ color: var(--accent); }
 
-    html, body {
-        height: 100%;
+    .grain{
+        position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.035;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        color: var(--text-main);
-        line-height: 1.6;
+    /* ===== Nav ===== */
+    .nav{
+        position:fixed; top:0; left:0; right:0; z-index:100;
+        padding:18px 0;
+    }
+    .nav__inner{ max-width:1180px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; }
+    .nav__logo{ font-family: var(--font-display); font-weight:800; font-size:16px; letter-spacing:.03em; }
+    .nav__logo span{ color: var(--accent); }
+
+    /* ===== Buttons ===== */
+    .btn{
+        display:inline-flex; align-items:center; justify-content:center; gap:8px;
+        font-family: var(--font-display); font-weight:700; font-size:14px; letter-spacing:.02em;
+        padding:15px 28px; border-radius:999px; border:1px solid transparent;
+        cursor:pointer; transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease);
+        background:none;
+    }
+    .btn--primary{ background: var(--accent); color:#fff; box-shadow: 0 8px 24px -8px var(--accent-glow); }
+    .btn--primary:hover{ transform: translateY(-2px); box-shadow: 0 14px 32px -8px var(--accent-glow); }
+    .btn--primary:disabled{ opacity:.4; cursor:not-allowed; transform:none; box-shadow:none; }
+    .btn--ghost{ background: transparent; color: var(--text); border-color: var(--line-strong); }
+    .btn--ghost:hover{ background: rgba(255,255,255,.06); transform: translateY(-2px); }
+    .btn--lg{ padding:18px 34px; font-size:15px; }
+    .btn--full{ width:100%; }
+
+    /* ===== Hero ===== */
+    /* No photo wired in yet — swap .hero__media for an <img> (see
+       TBW-Landing's markup) once Will's real training photos are ready. */
+    .hero{ position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; }
+    .hero__media{
+        position:absolute; inset:0; z-index:0;
         background:
-            radial-gradient(circle at 20% 10%, rgba(212,175,55,0.12), transparent 45%),
-            radial-gradient(circle at 80% 90%, rgba(212,175,55,0.08), transparent 40%),
-            var(--bg);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 40px 16px;
+            radial-gradient(ellipse 900px 600px at 60% 0%, rgba(229,52,42,.22), transparent 60%),
+            radial-gradient(ellipse 700px 500px at 10% 100%, rgba(229,52,42,.10), transparent 55%),
+            linear-gradient(160deg, #17171a 0%, var(--bg) 60%);
+    }
+    .hero__gradient{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,10,11,0) 0%, rgba(10,10,11,.2) 60%, var(--bg) 100%); }
+    .hero__content{ position:relative; z-index:2; padding:140px 24px 90px; max-width:900px; margin:0 auto; width:100%; }
+    .kicker{ font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color: var(--accent); margin-bottom:18px; }
+    .hero__headline{ font-size: clamp(2.2rem, 6.5vw, 4.4rem); color:#fff; margin-bottom:22px; }
+    .hero__subhead{ max-width:560px; font-size: clamp(1rem,2vw,1.12rem); color: var(--text-dim); margin-bottom:34px; }
+    .hero__scroll{
+        position:absolute; bottom:28px; left:50%; transform:translateX(-50%); z-index:2;
+        display:flex; flex-direction:column; align-items:center; gap:8px;
+        font-size:11px; letter-spacing:.15em; text-transform:uppercase; color: var(--text-faint); font-weight:600;
+    }
+    .hero__scroll span{ width:1px; height:34px; background: linear-gradient(var(--text-faint), transparent); position:relative; overflow:hidden; }
+    .hero__scroll span::after{ content:''; position:absolute; top:-100%; left:0; width:100%; height:100%; background: var(--accent); animation: scrollLine 2s ease-in-out infinite; }
+    @keyframes scrollLine{ 0%{ top:-100%; } 60%{ top:100%; } 100%{ top:100%; } }
+
+    /* ===== Application section ===== */
+    /* No photo wired in yet — swap for a background <img> the same way
+       TBW-Landing's .community__bg does once real photos are ready. */
+    .apply-section{ position:relative; padding: 90px 0 120px; }
+    .apply-section__bg{
+        position:absolute; inset:0; height:70%; z-index:0;
+        background: radial-gradient(ellipse 800px 500px at 50% 0%, rgba(229,52,42,.12), transparent 60%);
+    }
+    .apply-section__bg::after{ content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,10,11,.1), var(--bg) 92%); }
+
+    .card{
+        position:relative; z-index:1; max-width: var(--container); margin:0 auto;
+        background: var(--bg-card); border:1px solid var(--line-strong); border-radius: var(--radius-lg);
+        padding: 52px 48px; box-shadow: 0 30px 80px -30px rgba(0,0,0,.6);
     }
 
-    .brand {
-        text-align: center;
-        margin-bottom: 24px;
+    .progress-track{ width:100%; height:6px; background: rgba(255,255,255,.08); border-radius:999px; overflow:hidden; margin-bottom:32px; }
+    .progress-fill{ height:100%; background: var(--accent); border-radius:999px; width:0%; transition: width .4s var(--ease); }
+
+    .step{ display:none; animation: fadeIn .35s var(--ease); }
+    .step.active{ display:block; }
+    @keyframes fadeIn{ from{ opacity:0; transform: translateY(8px); } to{ opacity:1; transform:translateY(0); } }
+
+    .step-eyebrow{ font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color: var(--accent); margin-bottom:14px; }
+    .step h2{ font-size: clamp(1.3rem, 3vw, 1.7rem); margin-bottom:26px; color:#fff; }
+
+    .options{ display:flex; flex-direction:column; gap:12px; margin-bottom:30px; }
+    .option-btn{
+        text-align:left; background: rgba(255,255,255,.03); border:1px solid var(--line-strong);
+        color: var(--text); padding:16px 20px; border-radius: var(--radius-md);
+        font-family: var(--font-body); font-size:.98rem; font-weight:500; cursor:pointer;
+        transition: all .25s var(--ease);
     }
+    .option-btn:hover{ border-color: var(--accent); background: rgba(255,255,255,.06); }
+    .option-btn.selected{ border-color: var(--accent); background: var(--accent-dim); color:#fff; font-weight:700; }
 
-    .brand .kicker {
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        font-size: 0.75rem;
-        color: var(--accent);
-        font-weight: 700;
+    .yesno-row{ display:flex; gap:14px; margin-bottom:30px; }
+    .yesno-row .option-btn{ flex:1; text-align:center; }
+
+    textarea, input[type="text"], input[type="email"], input[type="tel"]{
+        width:100%; background: rgba(255,255,255,.05); border:1px solid var(--line-strong);
+        color:#fff; padding:16px 20px; border-radius:999px; font-size:.98rem;
+        margin-bottom:18px; font-family: var(--font-body);
     }
+    textarea{ border-radius: var(--radius-md); min-height:120px; resize:vertical; }
+    textarea:focus, input:focus{ outline:none; border-color: var(--accent); }
 
-    .brand h1 {
-        font-size: 1.9rem;
-        margin-top: 8px;
+    .field-label{ display:block; font-size:.78rem; color: var(--text-dim); margin-bottom:8px; text-transform:uppercase; letter-spacing:.08em; font-weight:600; }
+
+    .nav-row{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:8px; }
+    .nav-row .btn--primary{ margin-left:auto; }
+
+    .error-msg{ color:#ff8a80; font-size:.85rem; margin:-10px 0 16px; display:none; }
+    .error-msg.visible{ display:block; }
+
+    /* Thank you */
+    #thankyou{ text-align:center; }
+    #thankyou .check{
+        width:64px; height:64px; border-radius:50%; background: var(--accent); color:#fff;
+        font-size:1.8rem; display:flex; align-items:center; justify-content:center; margin:0 auto 22px;
     }
-
-    .card {
-        width: 100%;
-        max-width: 640px;
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 36px 32px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    #thankyou h2{ margin-bottom:14px; }
+    #thankyou p{ color: var(--text-dim); }
+    .summary{
+        text-align:left; margin-top:28px; background: rgba(255,255,255,.03); border:1px solid var(--line);
+        border-radius: var(--radius-md); padding:20px 24px; font-size:.88rem; color: var(--text-dim);
     }
+    .summary div{ margin-bottom:8px; }
+    .summary strong{ color:#fff; }
 
-    .progress-track {
-        width: 100%;
-        height: 8px;
-        background: #2a2a2a;
-        border-radius: 999px;
-        overflow: hidden;
-        margin-bottom: 28px;
-    }
-
-    .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--accent), #f0d878);
-        border-radius: 999px;
-        width: 0%;
-        transition: width 0.4s ease;
-    }
-
-    .step { display: none; animation: fadeIn 0.35s ease; }
-    .step.active { display: block; }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(8px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .step-eyebrow {
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: var(--text-muted);
-        margin-bottom: 10px;
-    }
-
-    .step h2 {
-        font-size: 1.4rem;
-        margin-bottom: 22px;
-        color: #fff;
-    }
-
-    .options {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        margin-bottom: 28px;
-    }
-
-    .option-btn {
-        text-align: left;
-        background: #232323;
-        border: 1px solid var(--border);
-        color: var(--text-main);
-        padding: 16px 18px;
-        border-radius: 10px;
-        font-size: 0.98rem;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .option-btn:hover { border-color: var(--accent); background: #2a2a2a; }
-
-    .option-btn.selected {
-        border-color: var(--accent);
-        background: rgba(212,175,55,0.15);
-        color: #fff;
-        font-weight: 600;
-    }
-
-    .yesno-row {
-        display: flex;
-        gap: 14px;
-        margin-bottom: 28px;
-    }
-
-    .yesno-row .option-btn {
-        flex: 1;
-        text-align: center;
-    }
-
-    textarea, input[type="text"], input[type="email"], input[type="tel"] {
-        width: 100%;
-        background: #232323;
-        border: 1px solid var(--border);
-        color: var(--text-main);
-        padding: 14px 16px;
-        border-radius: 10px;
-        font-size: 0.98rem;
-        margin-bottom: 16px;
-        font-family: inherit;
-    }
-
-    textarea:focus, input:focus {
-        outline: none;
-        border-color: var(--accent);
-    }
-
-    textarea { min-height: 110px; resize: vertical; }
-
-    .field-label {
-        display: block;
-        font-size: 0.82rem;
-        color: var(--text-muted);
-        margin-bottom: 6px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .nav-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
-        margin-top: 8px;
-    }
-
-    .btn {
-        border: none;
-        border-radius: 999px;
-        padding: 13px 26px;
-        font-size: 0.95rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .btn-primary {
-        background: var(--accent);
-        color: #1a1a1a;
-        margin-left: auto;
-    }
-
-    .btn-primary:hover { background: #e6c458; }
-
-    .btn-primary:disabled {
-        opacity: 0.4;
-        cursor: not-allowed;
-    }
-
-    .btn-ghost {
-        background: transparent;
-        color: var(--text-muted);
-        border: 1px solid var(--border);
-    }
-
-    .btn-ghost:hover { color: #fff; border-color: var(--text-muted); }
-
-    .error-msg {
-        color: #e07a7a;
-        font-size: 0.85rem;
-        margin: -8px 0 16px;
-        display: none;
-    }
-
-    .error-msg.visible { display: block; }
-
-    /* Thank you screen */
-    #thankyou { text-align: center; }
-    #thankyou .check {
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        background: var(--accent);
-        color: #1a1a1a;
-        font-size: 1.8rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 20px;
-    }
-    #thankyou h2 { margin-bottom: 12px; }
-    #thankyou p { color: var(--text-muted); }
-
-    .summary {
-        text-align: left;
-        margin-top: 24px;
-        background: #232323;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 18px 20px;
-        font-size: 0.88rem;
-        color: var(--text-muted);
-    }
-    .summary strong { color: #fff; }
-    .summary div { margin-bottom: 6px; }
-
-    @media (max-width: 480px) {
-        .card { padding: 26px 20px; }
-        .step h2 { font-size: 1.2rem; }
+    @media (max-width:640px){
+        .hero__content{ padding:120px 20px 70px; }
+        .card{ padding:36px 24px; }
     }
 </style>
 </head>
 <body>
 
-<div class="brand">
-    <div class="kicker">Hormone Optimization Coaching</div>
-    <h1>Apply for 1:1 Coaching</h1>
-</div>
+<div class="grain"></div>
 
-<div class="card">
-    <div class="progress-track">
-        <div class="progress-fill" id="progressFill"></div>
+<header class="nav">
+    <div class="nav__inner">
+        <span class="nav__logo">TRAINED <span>BY WILL</span></span>
     </div>
+</header>
 
-    <form id="quiz">
-
-        <!-- Step 1: Age -->
-        <div class="step active" data-step="0">
-            <div class="step-eyebrow">Question 1 of 6</div>
-            <h2>What's your age range?</h2>
-            <div class="options" data-field="age">
-                <button type="button" class="option-btn" data-value="18-24">18 – 24</button>
-                <button type="button" class="option-btn" data-value="25-34">25 – 34</button>
-                <button type="button" class="option-btn" data-value="35-44">35 – 44</button>
-                <button type="button" class="option-btn" data-value="45+">45 and over</button>
-            </div>
-            <div class="nav-row">
-                <span></span>
-                <button type="button" class="btn btn-primary" data-next disabled>Next &rarr;</button>
-            </div>
-        </div>
-
-        <!-- Step 2: Primary Goal -->
-        <div class="step" data-step="1">
-            <div class="step-eyebrow">Question 2 of 6</div>
-            <h2>What's your #1 goal right now?</h2>
-            <div class="options" data-field="goal">
-                <button type="button" class="option-btn" data-value="Increase testosterone naturally">Increase testosterone naturally</button>
-                <button type="button" class="option-btn" data-value="Lose fat and build lean muscle">Lose fat &amp; build lean muscle</button>
-                <button type="button" class="option-btn" data-value="Improve energy and sleep quality">Improve energy &amp; sleep quality</button>
-                <button type="button" class="option-btn" data-value="Boost libido and performance">Boost libido &amp; performance</button>
-                <button type="button" class="option-btn" data-value="Overall long-term health and longevity">Overall long-term health &amp; longevity</button>
-            </div>
-            <div class="nav-row">
-                <button type="button" class="btn btn-ghost" data-back>&larr; Back</button>
-                <button type="button" class="btn btn-primary" data-next disabled>Next &rarr;</button>
-            </div>
-        </div>
-
-        <!-- Step 3: Commitment -->
-        <div class="step" data-step="2">
-            <div class="step-eyebrow">Question 3 of 6</div>
-            <h2>Coaching only works if you show up. Are you ready to commit 100% to a structured plan?</h2>
-            <div class="yesno-row" data-field="committed">
-                <button type="button" class="option-btn" data-value="Yes">Yes</button>
-                <button type="button" class="option-btn" data-value="No">No</button>
-            </div>
-            <div class="nav-row">
-                <button type="button" class="btn btn-ghost" data-back>&larr; Back</button>
-                <button type="button" class="btn btn-primary" data-next disabled>Next &rarr;</button>
-            </div>
-        </div>
-
-        <!-- Step 4: Biggest obstacle -->
-        <div class="step" data-step="3">
-            <div class="step-eyebrow">Question 4 of 6</div>
-            <h2>What's the biggest thing holding you back from reaching your goal?</h2>
-            <textarea data-field="obstacle" placeholder="e.g. inconsistent sleep, no clear plan, low energy in the gym..."></textarea>
-            <div class="error-msg" data-error="obstacle">Please share a few words so we understand your situation.</div>
-            <div class="nav-row">
-                <button type="button" class="btn btn-ghost" data-back>&larr; Back</button>
-                <button type="button" class="btn btn-primary" data-next>Next &rarr;</button>
-            </div>
-        </div>
-
-        <!-- Step 5: Investment level -->
-        <div class="step" data-step="4">
-            <div class="step-eyebrow">Question 5 of 6</div>
-            <h2>What level of investment are you ready to make in your health?</h2>
-            <div class="options" data-field="budget">
-                <button type="button" class="option-btn" data-value="Just looking for something basic, budget under $200/mo">Just looking for something basic, budget under $200/mo</button>
-                <button type="button" class="option-btn" data-value="Budget is tight, but I'm committed if results are guaranteed">Budget is tight, but I'm committed if results are guaranteed</button>
-                <button type="button" class="option-btn" data-value="My goals matter to me, I'm ready to invest fully">My goals matter to me, I'm ready to invest fully</button>
-            </div>
-            <div class="nav-row">
-                <button type="button" class="btn btn-ghost" data-back>&larr; Back</button>
-                <button type="button" class="btn btn-primary" data-next disabled>Next &rarr;</button>
-            </div>
-        </div>
-
-        <!-- Step 6: Contact Info -->
-        <div class="step" data-step="5">
-            <div class="step-eyebrow">Question 6 of 6</div>
-            <h2>Almost done — where should we send your results?</h2>
-
-            <label class="field-label" for="fullName">Full name</label>
-            <input type="text" id="fullName" data-field="name" placeholder="Your full name">
-            <div class="error-msg" data-error="name">Please enter your name.</div>
-
-            <label class="field-label" for="email">Email</label>
-            <input type="email" id="email" data-field="email" placeholder="you@example.com">
-            <div class="error-msg" data-error="email">Please enter a valid email.</div>
-
-            <label class="field-label" for="phone">Phone</label>
-            <input type="tel" id="phone" data-field="phone" placeholder="(555) 123-4567">
-            <div class="error-msg" data-error="phone">Please enter your phone number.</div>
-
-            <label class="field-label" for="instagram">Instagram handle (optional)</label>
-            <input type="text" id="instagram" data-field="instagram" placeholder="@yourhandle">
-
-            <div class="nav-row">
-                <button type="button" class="btn btn-ghost" data-back>&larr; Back</button>
-                <button type="submit" class="btn btn-primary">Submit Application &rarr;</button>
-            </div>
-        </div>
-
-    </form>
-
-    <!-- Thank you -->
-    <div id="thankyou" style="display:none;">
-        <div class="check">&#10003;</div>
-        <h2>Application received</h2>
-        <p>Thanks for sharing your goals — a coach will review your answers and reach out within 24 hours.</p>
-        <div class="summary" id="summaryBox"></div>
+<!-- ============ HERO ============ -->
+<section class="hero">
+    <div class="hero__media">
+        <div class="hero__gradient"></div>
     </div>
-</div>
+    <div class="hero__content">
+        <p class="kicker">@trainedbywill_ &nbsp;&middot;&nbsp; apply for 1:1 coaching</p>
+        <h1 class="hero__headline">You're already<br>doing the work.<br><span class="text-accent">Let's fix what's<br>holding it back.</span></h1>
+        <p class="hero__subhead">
+            A few quick questions about your goals, your training, and what's
+            actually gotten in the way so far. Takes about two minutes — then
+            I'll follow up directly.
+        </p>
+        <a href="#apply" class="btn btn--primary btn--lg">Start application</a>
+    </div>
+    <a href="#apply" class="hero__scroll" aria-label="Scroll down">
+        <span></span>
+        Scroll
+    </a>
+</section>
+
+<!-- ============ APPLICATION ============ -->
+<section class="apply-section" id="apply">
+    <div class="apply-section__bg"></div>
+
+    <div class="card">
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <form id="quiz">
+
+            <!-- Step 1: Age -->
+            <div class="step active" data-step="0">
+                <div class="step-eyebrow">Question 1 of 6</div>
+                <h2>What's your age range?</h2>
+                <div class="options" data-field="age">
+                    <button type="button" class="option-btn" data-value="18-24">18 &ndash; 24</button>
+                    <button type="button" class="option-btn" data-value="25-34">25 &ndash; 34</button>
+                    <button type="button" class="option-btn" data-value="35-44">35 &ndash; 44</button>
+                    <button type="button" class="option-btn" data-value="45+">45 and over</button>
+                </div>
+                <div class="nav-row">
+                    <span></span>
+                    <button type="button" class="btn btn--primary" data-next disabled>Next &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Primary Goal -->
+            <div class="step" data-step="1">
+                <div class="step-eyebrow">Question 2 of 6</div>
+                <h2>What's your #1 goal right now?</h2>
+                <div class="options" data-field="goal">
+                    <button type="button" class="option-btn" data-value="Increase testosterone naturally">Increase testosterone naturally</button>
+                    <button type="button" class="option-btn" data-value="Lose fat and build lean muscle">Lose fat &amp; build lean muscle</button>
+                    <button type="button" class="option-btn" data-value="Improve energy and sleep quality">Improve energy &amp; sleep quality</button>
+                    <button type="button" class="option-btn" data-value="Boost libido and performance">Boost libido &amp; performance</button>
+                    <button type="button" class="option-btn" data-value="Overall long-term health and longevity">Overall long-term health &amp; longevity</button>
+                </div>
+                <div class="nav-row">
+                    <button type="button" class="btn btn--ghost" data-back>&larr; Back</button>
+                    <button type="button" class="btn btn--primary" data-next disabled>Next &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Commitment -->
+            <div class="step" data-step="2">
+                <div class="step-eyebrow">Question 3 of 6</div>
+                <h2>Coaching only works if you show up. Are you ready to commit 100% to a structured plan?</h2>
+                <div class="yesno-row" data-field="committed">
+                    <button type="button" class="option-btn" data-value="Yes">Yes</button>
+                    <button type="button" class="option-btn" data-value="No">No</button>
+                </div>
+                <div class="nav-row">
+                    <button type="button" class="btn btn--ghost" data-back>&larr; Back</button>
+                    <button type="button" class="btn btn--primary" data-next disabled>Next &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Biggest obstacle -->
+            <div class="step" data-step="3">
+                <div class="step-eyebrow">Question 4 of 6</div>
+                <h2>What's the biggest thing holding you back from reaching your goal?</h2>
+                <textarea data-field="obstacle" placeholder="e.g. inconsistent sleep, no clear plan, low energy in the gym..."></textarea>
+                <div class="error-msg" data-error="obstacle">Please share a few words so we understand your situation.</div>
+                <div class="nav-row">
+                    <button type="button" class="btn btn--ghost" data-back>&larr; Back</button>
+                    <button type="button" class="btn btn--primary" data-next>Next &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Investment level -->
+            <div class="step" data-step="4">
+                <div class="step-eyebrow">Question 5 of 6</div>
+                <h2>What level of investment are you ready to make in your health?</h2>
+                <div class="options" data-field="budget">
+                    <button type="button" class="option-btn" data-value="Just looking for something basic, budget under $200/mo">Just looking for something basic, budget under $200/mo</button>
+                    <button type="button" class="option-btn" data-value="Budget is tight, but I'm committed if results are guaranteed">Budget is tight, but I'm committed if results are guaranteed</button>
+                    <button type="button" class="option-btn" data-value="My goals matter to me, I'm ready to invest fully">My goals matter to me, I'm ready to invest fully</button>
+                </div>
+                <div class="nav-row">
+                    <button type="button" class="btn btn--ghost" data-back>&larr; Back</button>
+                    <button type="button" class="btn btn--primary" data-next disabled>Next &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Step 6: Contact Info -->
+            <div class="step" data-step="5">
+                <div class="step-eyebrow">Question 6 of 6</div>
+                <h2>Almost done &mdash; where should we send your results?</h2>
+
+                <label class="field-label" for="fullName">Full name</label>
+                <input type="text" id="fullName" data-field="name" placeholder="Your full name">
+                <div class="error-msg" data-error="name">Please enter your name.</div>
+
+                <label class="field-label" for="email">Email</label>
+                <input type="email" id="email" data-field="email" placeholder="you@example.com">
+                <div class="error-msg" data-error="email">Please enter a valid email.</div>
+
+                <label class="field-label" for="phone">Phone</label>
+                <input type="tel" id="phone" data-field="phone" placeholder="(555) 123-4567">
+                <div class="error-msg" data-error="phone">Please enter your phone number.</div>
+
+                <label class="field-label" for="instagram">Instagram handle (optional)</label>
+                <input type="text" id="instagram" data-field="instagram" placeholder="@yourhandle">
+
+                <div class="nav-row">
+                    <button type="button" class="btn btn--ghost" data-back>&larr; Back</button>
+                    <button type="submit" class="btn btn--primary">Submit Application &rarr;</button>
+                </div>
+            </div>
+
+        </form>
+
+        <!-- Thank you -->
+        <div id="thankyou" style="display:none;">
+            <div class="check">&#10003;</div>
+            <h2>Application received</h2>
+            <p>Thanks for sharing your goals &mdash; I'll review your answers and reach out within 24 hours.</p>
+            <div class="summary" id="summaryBox"></div>
+        </div>
+    </div>
+</section>
 
 <script>
 (function () {
     // Paste the "Web app URL" from your Apps Script deployment here.
-    // See README / setup notes for how to get this from the "Coaching Leads"
+    // See CRM_SETUP.md for how to get this from the "Coaching Leads"
     // Google Sheet (Extensions > Apps Script > Deploy > New deployment).
     const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbykqd4bif8ud2l7Y9TTfsanbkEu15paY5H0R_9MlLSE6fk7gL5zjY27jS65NDWOr252/exec';
 
