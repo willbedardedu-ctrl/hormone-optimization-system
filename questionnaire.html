@@ -79,41 +79,18 @@
     .btn--lg{ padding:18px 34px; font-size:15px; }
     .btn--full{ width:100%; }
 
-    /* ===== Hero ===== */
-    .hero{ position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; }
+    /* ===== Hero + Quiz (one continuous screen) ===== */
+    .hero{ position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; overflow:hidden; padding: 110px 0 60px; }
     .hero__media{ position:absolute; inset:0; z-index:0; }
     .hero__media img{ width:100%; height:100%; object-fit:cover; object-position:50% 30%; transform:scale(1.08); }
-    .hero__gradient{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,10,11,.35) 0%, rgba(10,10,11,.15) 30%, rgba(10,10,11,.92) 80%, var(--bg) 100%); }
-    .hero__content{ position:relative; z-index:2; padding:140px 24px 90px; max-width:900px; margin:0 auto; width:100%; }
-    .kicker{ font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color: var(--accent); margin-bottom:18px; }
-    .hero__headline{ font-size: clamp(2.2rem, 6.5vw, 4.4rem); color:#fff; margin-bottom:22px; }
-    .hero__subhead{ max-width:560px; font-size: clamp(1rem,2vw,1.12rem); color: var(--text-dim); margin-bottom:34px; }
-    .hero__scroll{
-        position:absolute; bottom:28px; left:50%; transform:translateX(-50%); z-index:2;
-        display:flex; flex-direction:column; align-items:center; gap:8px;
-        font-size:11px; letter-spacing:.15em; text-transform:uppercase; color: var(--text-faint); font-weight:600;
-    }
-    .hero__scroll span{ width:1px; height:34px; background: linear-gradient(var(--text-faint), transparent); position:relative; overflow:hidden; }
-    .hero__scroll span::after{ content:''; position:absolute; top:-100%; left:0; width:100%; height:100%; background: var(--accent); animation: scrollLine 2s ease-in-out infinite; }
-    @keyframes scrollLine{ 0%{ top:-100%; } 60%{ top:100%; } 100%{ top:100%; } }
+    .hero__gradient{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,10,11,.55) 0%, rgba(10,10,11,.35) 40%, rgba(10,10,11,.6) 100%); }
+    .hero__content{ position:relative; z-index:2; padding:0 24px; max-width: var(--container); margin:0 auto; width:100%; text-align:center; }
+    .kicker{ font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color: var(--accent); margin-bottom:16px; }
+    .hero__headline{ font-size: clamp(2rem, 6vw, 3.2rem); color:#fff; margin-bottom:36px; text-shadow: 0 4px 24px rgba(0,0,0,.5); }
 
-    /* ===== Application section ===== */
-    /* No photo wired in yet — swap for a background <img> the same way
-       TBW-Landing's .community__bg does once real photos are ready. */
-    .apply-section{ position:relative; padding: 90px 0 120px; }
-    .apply-section__bg{
-        position:absolute; inset:0; height:70%; z-index:0;
-        background: radial-gradient(ellipse 800px 500px at 50% 0%, rgba(229,52,42,.12), transparent 60%);
-    }
-    .apply-section__bg::after{ content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,10,11,.1), var(--bg) 92%); }
+    .card{ position:relative; z-index:1; width:100%; }
 
-    .card{
-        position:relative; z-index:1; max-width: var(--container); margin:0 auto;
-        background: var(--bg-card); border:1px solid var(--line-strong); border-radius: var(--radius-lg);
-        padding: 52px 48px; box-shadow: 0 30px 80px -30px rgba(0,0,0,.6);
-    }
-
-    .progress-track{ width:100%; height:6px; background: rgba(255,255,255,.08); border-radius:999px; overflow:hidden; margin-bottom:32px; }
+    .progress-track{ width:100%; height:6px; background: rgba(255,255,255,.15); border-radius:999px; overflow:hidden; margin-bottom:32px; }
     .progress-fill{ height:100%; background: var(--accent); border-radius:999px; width:0%; transition: width .4s var(--ease); }
 
     .step{ display:none; animation: fadeIn .35s var(--ease); }
@@ -125,19 +102,19 @@
 
     .options{ display:flex; flex-direction:column; gap:12px; margin-bottom:30px; }
     .option-btn{
-        text-align:left; background: rgba(255,255,255,.03); border:1px solid var(--line-strong);
-        color: var(--text); padding:16px 20px; border-radius: var(--radius-md);
+        text-align:left; background: rgba(10,10,11,.55); backdrop-filter: blur(6px); border:1px solid var(--line-strong);
+        color: #fff; padding:16px 20px; border-radius: var(--radius-md);
         font-family: var(--font-body); font-size:.98rem; font-weight:500; cursor:pointer;
         transition: all .25s var(--ease);
     }
-    .option-btn:hover{ border-color: var(--accent); background: rgba(255,255,255,.06); }
-    .option-btn.selected{ border-color: var(--accent); background: var(--accent-dim); color:#fff; font-weight:700; }
+    .option-btn:hover{ border-color: var(--accent); background: rgba(10,10,11,.7); }
+    .option-btn.selected{ border-color: var(--accent); background: var(--accent); color:#fff; font-weight:700; }
 
     .yesno-row{ display:flex; gap:14px; margin-bottom:30px; }
     .yesno-row .option-btn{ flex:1; text-align:center; }
 
     textarea, input[type="text"], input[type="email"], input[type="tel"]{
-        width:100%; background: rgba(255,255,255,.05); border:1px solid var(--line-strong);
+        width:100%; background: rgba(10,10,11,.55); backdrop-filter: blur(6px); border:1px solid var(--line-strong);
         color:#fff; padding:16px 20px; border-radius:999px; font-size:.98rem;
         margin-bottom:18px; font-family: var(--font-body);
     }
@@ -161,15 +138,15 @@
     #thankyou h2{ margin-bottom:14px; }
     #thankyou p{ color: var(--text-dim); }
     .summary{
-        text-align:left; margin-top:28px; background: rgba(255,255,255,.03); border:1px solid var(--line);
+        text-align:left; margin-top:28px; background: rgba(10,10,11,.55); backdrop-filter: blur(6px); border:1px solid var(--line);
         border-radius: var(--radius-md); padding:20px 24px; font-size:.88rem; color: var(--text-dim);
     }
     .summary div{ margin-bottom:8px; }
     .summary strong{ color:#fff; }
 
     @media (max-width:640px){
-        .hero__content{ padding:120px 20px 70px; }
-        .card{ padding:36px 24px; }
+        .hero{ padding:100px 0 40px; }
+        .hero__content{ padding:0 20px; }
     }
 </style>
 </head>
@@ -183,38 +160,22 @@
     </div>
 </header>
 
-<!-- ============ HERO ============ -->
-<section class="hero">
+<!-- ============ HERO + APPLICATION (one screen) ============ -->
+<section class="hero" id="apply">
     <div class="hero__media">
         <img src="images/will-hero.jpg" alt="Will training with a kettlebell">
         <div class="hero__gradient"></div>
     </div>
     <div class="hero__content">
         <p class="kicker">@trainedbywill_ &nbsp;&middot;&nbsp; apply for 1:1 coaching</p>
-        <h1 class="hero__headline">You're already<br>doing the work.<br><span class="text-accent">Let's fix what's<br>holding it back.</span></h1>
-        <p class="hero__subhead">
-            A few quick questions about your goals, your training, and what's
-            actually gotten in the way so far. Takes about two minutes — then
-            I'll follow up directly.
-        </p>
-        <a href="#apply" class="btn btn--primary btn--lg">Start application</a>
-    </div>
-    <a href="#apply" class="hero__scroll" aria-label="Scroll down">
-        <span></span>
-        Scroll
-    </a>
-</section>
+        <h1 class="hero__headline">TRAINED BY WILL<br><span class="text-accent">Online Coaching</span></h1>
 
-<!-- ============ APPLICATION ============ -->
-<section class="apply-section" id="apply">
-    <div class="apply-section__bg"></div>
+        <div class="card">
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
 
-    <div class="card">
-        <div class="progress-track">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-
-        <form id="quiz">
+            <form id="quiz">
 
             <!-- Step 1: Age -->
             <div class="step active" data-step="0">
@@ -316,14 +277,15 @@
                 </div>
             </div>
 
-        </form>
+            </form>
 
-        <!-- Thank you -->
-        <div id="thankyou" style="display:none;">
-            <div class="check">&#10003;</div>
-            <h2>Application received</h2>
-            <p>Thanks for sharing your goals &mdash; I'll review your answers and reach out within 24 hours.</p>
-            <div class="summary" id="summaryBox"></div>
+            <!-- Thank you -->
+            <div id="thankyou" style="display:none;">
+                <div class="check">&#10003;</div>
+                <h2>Application received</h2>
+                <p>Thanks for sharing your goals &mdash; I'll review your answers and reach out within 24 hours.</p>
+                <div class="summary" id="summaryBox"></div>
+            </div>
         </div>
     </div>
 </section>
