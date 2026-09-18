@@ -79,18 +79,37 @@
     .btn--lg{ padding:18px 34px; font-size:15px; }
     .btn--full{ width:100%; }
 
-    /* ===== Hero + Quiz (one continuous screen) ===== */
-    .hero{ position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; overflow:hidden; padding: 110px 0 60px; }
+    /* ===== Hero ===== */
+    .hero{ position:relative; min-height:88svh; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; }
     .hero__media{ position:absolute; inset:0; z-index:0; }
     .hero__media img{ width:100%; height:100%; object-fit:cover; object-position:50% 30%; transform:scale(1.08); }
-    .hero__gradient{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,10,11,.55) 0%, rgba(10,10,11,.35) 40%, rgba(10,10,11,.6) 100%); }
-    .hero__content{ position:relative; z-index:2; padding:0 24px; max-width: var(--container); margin:0 auto; width:100%; text-align:center; }
+    .hero__gradient{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,10,11,.4) 0%, rgba(10,10,11,.2) 35%, rgba(10,10,11,.92) 85%, var(--bg) 100%); }
+    .hero__content{ position:relative; z-index:2; padding:140px 24px 70px; max-width: var(--container); margin:0 auto; width:100%; text-align:center; }
     .kicker{ font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color: var(--accent); margin-bottom:16px; }
-    .hero__headline{ font-size: clamp(2rem, 6vw, 3.2rem); color:#fff; margin-bottom:36px; text-shadow: 0 4px 24px rgba(0,0,0,.5); }
+    .hero__headline{ font-size: clamp(2rem, 6vw, 3.2rem); color:#fff; margin-bottom:20px; text-shadow: 0 4px 24px rgba(0,0,0,.5); }
+    .hero__subhead{ font-size: clamp(1rem,2vw,1.1rem); color: var(--text-dim); max-width:520px; margin:0 auto; }
+    .hero__scroll{
+        position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:2;
+        display:flex; flex-direction:column; align-items:center; gap:8px;
+        font-size:11px; letter-spacing:.15em; text-transform:uppercase; color: var(--text-faint); font-weight:600;
+    }
+    .hero__scroll span{ width:1px; height:30px; background: linear-gradient(var(--text-faint), transparent); position:relative; overflow:hidden; }
+    .hero__scroll span::after{ content:''; position:absolute; top:-100%; left:0; width:100%; height:100%; background: var(--accent); animation: scrollLine 2s ease-in-out infinite; }
+    @keyframes scrollLine{ 0%{ top:-100%; } 60%{ top:100%; } 100%{ top:100%; } }
 
-    .card{ position:relative; z-index:1; width:100%; }
+    /* ===== Quiz section ===== */
+    .quiz-section{ padding: 90px 0 110px; background: var(--bg); }
+    .quiz-section__head{ text-align:center; max-width:600px; margin:0 auto 40px; }
+    .quiz-section__head h2{ font-size: clamp(1.6rem, 3.5vw, 2.2rem); color:#fff; margin-bottom:12px; }
+    .quiz-section__head p{ color: var(--text-dim); font-size:1rem; }
 
-    .progress-track{ width:100%; height:6px; background: rgba(255,255,255,.15); border-radius:999px; overflow:hidden; margin-bottom:32px; }
+    .card{
+        position:relative; max-width: var(--container); margin:0 auto; width:100%;
+        background: var(--bg-card); border:1px solid var(--line-strong); border-radius: var(--radius-lg);
+        padding: 48px 44px; box-shadow: 0 30px 80px -30px rgba(0,0,0,.6);
+    }
+
+    .progress-track{ width:100%; height:6px; background: rgba(255,255,255,.08); border-radius:999px; overflow:hidden; margin-bottom:32px; }
     .progress-fill{ height:100%; background: var(--accent); border-radius:999px; width:0%; transition: width .4s var(--ease); }
 
     .step{ display:none; animation: fadeIn .35s var(--ease); }
@@ -98,23 +117,23 @@
     @keyframes fadeIn{ from{ opacity:0; transform: translateY(8px); } to{ opacity:1; transform:translateY(0); } }
 
     .step-eyebrow{ font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color: var(--accent); margin-bottom:14px; }
-    .step h2{ font-size: clamp(1.3rem, 3vw, 1.7rem); margin-bottom:26px; color:#fff; }
+    .step h2{ font-size: clamp(1.3rem, 3vw, 1.7rem); margin-bottom:26px; color:#fff; text-align:left; }
 
     .options{ display:flex; flex-direction:column; gap:12px; margin-bottom:30px; }
     .option-btn{
-        text-align:left; background: rgba(10,10,11,.55); backdrop-filter: blur(6px); border:1px solid var(--line-strong);
-        color: #fff; padding:16px 20px; border-radius: var(--radius-md);
+        text-align:left; background: rgba(255,255,255,.03); border:1px solid var(--line-strong);
+        color: var(--text); padding:16px 20px; border-radius: var(--radius-md);
         font-family: var(--font-body); font-size:.98rem; font-weight:500; cursor:pointer;
         transition: all .25s var(--ease);
     }
-    .option-btn:hover{ border-color: var(--accent); background: rgba(10,10,11,.7); }
-    .option-btn.selected{ border-color: var(--accent); background: var(--accent); color:#fff; font-weight:700; }
+    .option-btn:hover{ border-color: var(--accent); background: rgba(255,255,255,.06); }
+    .option-btn.selected{ border-color: var(--accent); background: var(--accent-dim); color:#fff; font-weight:700; }
 
     .yesno-row{ display:flex; gap:14px; margin-bottom:30px; }
     .yesno-row .option-btn{ flex:1; text-align:center; }
 
     textarea, input[type="text"], input[type="email"], input[type="tel"]{
-        width:100%; background: rgba(10,10,11,.55); backdrop-filter: blur(6px); border:1px solid var(--line-strong);
+        width:100%; background: rgba(255,255,255,.05); border:1px solid var(--line-strong);
         color:#fff; padding:16px 20px; border-radius:999px; font-size:.98rem;
         margin-bottom:18px; font-family: var(--font-body);
     }
@@ -138,15 +157,67 @@
     #thankyou h2{ margin-bottom:14px; }
     #thankyou p{ color: var(--text-dim); }
     .summary{
-        text-align:left; margin-top:28px; background: rgba(10,10,11,.55); backdrop-filter: blur(6px); border:1px solid var(--line);
+        text-align:left; margin-top:28px; background: rgba(255,255,255,.03); border:1px solid var(--line);
         border-radius: var(--radius-md); padding:20px 24px; font-size:.88rem; color: var(--text-dim);
     }
     .summary div{ margin-bottom:8px; }
     .summary strong{ color:#fff; }
 
+    /* ===== How it works ===== */
+    .steps{ padding: 100px 0; background: var(--bg-alt); }
+    .steps__head{ text-align:center; max-width:600px; margin:0 auto 60px; }
+    .steps__head h2{ font-size: clamp(1.8rem, 4vw, 2.6rem); color:#fff; margin-bottom:14px; }
+    .steps__head p{ color: var(--text-dim); font-size:1.05rem; }
+    .steps__grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:40px; max-width:1100px; margin:0 auto; }
+    .steps__item{ text-align:center; }
+    .steps__num{
+        width:52px; height:52px; border-radius:50%; background: var(--accent); color:#fff;
+        display:flex; align-items:center; justify-content:center; font-family: var(--font-display);
+        font-weight:800; font-size:1.3rem; margin:0 auto 20px;
+    }
+    .steps__item h3{ font-size:1.1rem; color:#fff; margin-bottom:10px; }
+    .steps__item p{ color: var(--text-dim); font-size:.95rem; }
+
+    /* ===== Transformations ===== */
+    .transformations{ padding: 100px 0; }
+    .transformations__head{ text-align:center; max-width:600px; margin:0 auto 60px; }
+    .transformations__head .eyebrow{ font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color: var(--accent); margin-bottom:14px; display:block; }
+    .transformations__head h2{ font-size: clamp(1.8rem, 4vw, 2.6rem); color:#fff; }
+    .transformations__grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:24px; max-width:1100px; margin:0 auto; }
+    .transformation-card{ background: var(--bg-card); border:1px solid var(--line-strong); border-radius: var(--radius-lg); overflow:hidden; }
+    .transformation-card__photo{
+        aspect-ratio: 4/5; border:1px dashed var(--line-strong); margin:16px; border-radius: var(--radius-md);
+        display:flex; align-items:center; justify-content:center; text-align:center; padding:20px;
+        color: var(--text-faint); font-size:.85rem; line-height:1.5;
+    }
+    .transformation-card__body{ padding: 0 24px 28px; }
+    .transformation-card__body h3{ font-size:1rem; color:#fff; margin-bottom:8px; }
+    .transformation-card__body p{ color: var(--text-dim); font-size:.92rem; font-style:italic; }
+
+    /* ===== What you get ===== */
+    .get{ padding: 100px 0; background: var(--bg-alt); }
+    .get__head{ text-align:center; max-width:600px; margin:0 auto 60px; }
+    .get__head .eyebrow{ font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color: var(--accent); margin-bottom:14px; display:block; }
+    .get__head h2{ font-size: clamp(1.8rem, 4vw, 2.6rem); color:#fff; }
+    .get__grid{ display:grid; grid-template-columns: repeat(2,1fr); gap:20px; max-width:900px; margin:0 auto; }
+    .get__item{ display:flex; gap:16px; align-items:flex-start; padding:24px; background: var(--bg-card); border:1px solid var(--line-strong); border-radius: var(--radius-md); }
+    .get__check{
+        flex-shrink:0; width:28px; height:28px; border-radius:50%; background: var(--accent-dim); color: var(--accent);
+        display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem;
+    }
+    .get__item h3{ font-size:1rem; color:#fff; margin-bottom:6px; }
+    .get__item p{ color: var(--text-dim); font-size:.9rem; }
+
+    /* ===== Footer ===== */
+    .footer{ padding: 56px 0; text-align:center; }
+    .footer__ig{ color: var(--text-dim); font-size:.9rem; font-weight:600; }
+    .footer__ig:hover{ color: var(--accent); }
+    .footer p{ color: var(--text-faint); font-size:.8rem; margin-top:16px; }
+
     @media (max-width:640px){
-        .hero{ padding:100px 0 40px; }
-        .hero__content{ padding:0 20px; }
+        .hero__content{ padding:120px 20px 60px; }
+        .card{ padding:36px 24px; }
+        .steps__grid, .transformations__grid, .get__grid{ grid-template-columns: 1fr; }
     }
 </style>
 </head>
@@ -160,8 +231,8 @@
     </div>
 </header>
 
-<!-- ============ HERO + APPLICATION (one screen) ============ -->
-<section class="hero" id="apply">
+<!-- ============ HERO ============ -->
+<section class="hero">
     <div class="hero__media">
         <img src="images/will-hero.jpg" alt="Will training with a kettlebell">
         <div class="hero__gradient"></div>
@@ -169,13 +240,27 @@
     <div class="hero__content">
         <p class="kicker">@trainedbywill_ &nbsp;&middot;&nbsp; apply for 1:1 coaching</p>
         <h1 class="hero__headline">TRAINED BY WILL<br><span class="text-accent">Online Coaching</span></h1>
+        <p class="hero__subhead">A hormone-first coaching program built around real food, real training, and real accountability.</p>
+    </div>
+    <a href="#apply" class="hero__scroll" aria-label="Scroll down">
+        <span></span>
+        Scroll
+    </a>
+</section>
 
-        <div class="card">
-            <div class="progress-track">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
+<!-- ============ APPLICATION ============ -->
+<section class="quiz-section" id="apply">
+    <div class="quiz-section__head">
+        <h2>Apply for 1:1 Coaching</h2>
+        <p>A few quick questions about your goals, your training, and what's actually gotten in the way so far. Takes about two minutes — then I'll follow up directly.</p>
+    </div>
 
-            <form id="quiz">
+    <div class="card">
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <form id="quiz">
 
             <!-- Step 1: Age -->
             <div class="step active" data-step="0">
@@ -286,9 +371,107 @@
                 <p>Thanks for sharing your goals &mdash; I'll review your answers and reach out within 24 hours.</p>
                 <div class="summary" id="summaryBox"></div>
             </div>
+    </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="steps">
+    <div class="steps__head">
+        <h2>Progress, not perfection.</h2>
+        <p>Here's exactly what happens after you hit submit.</p>
+    </div>
+    <div class="steps__grid">
+        <div class="steps__item">
+            <div class="steps__num">1</div>
+            <h3>Complete the form</h3>
+            <p>Answer a few quick questions about your goals, your training, and what's been holding you back.</p>
+        </div>
+        <div class="steps__item">
+            <div class="steps__num">2</div>
+            <h3>Get a personal response</h3>
+            <p>I review every application myself and follow up directly within 24 hours.</p>
+        </div>
+        <div class="steps__item">
+            <div class="steps__num">3</div>
+            <h3>Start your program</h3>
+            <p>We talk through your goals and build your hormone-first training and nutrition plan together.</p>
         </div>
     </div>
 </section>
+
+<!-- ============ CLIENT TRANSFORMATIONS ============ -->
+<section class="transformations">
+    <div class="transformations__head">
+        <span class="eyebrow">Client Transformations</span>
+        <h2>Real guys. Real results.</h2>
+    </div>
+    <div class="transformations__grid">
+        <div class="transformation-card">
+            <div class="transformation-card__photo">Add client before/after photo</div>
+            <div class="transformation-card__body">
+                <h3>Client Name</h3>
+                <p>"Placeholder testimonial — swap in a real client quote here."</p>
+            </div>
+        </div>
+        <div class="transformation-card">
+            <div class="transformation-card__photo">Add client before/after photo</div>
+            <div class="transformation-card__body">
+                <h3>Client Name</h3>
+                <p>"Placeholder testimonial — swap in a real client quote here."</p>
+            </div>
+        </div>
+        <div class="transformation-card">
+            <div class="transformation-card__photo">Add client before/after photo</div>
+            <div class="transformation-card__body">
+                <h3>Client Name</h3>
+                <p>"Placeholder testimonial — swap in a real client quote here."</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ WHAT YOU GET ============ -->
+<section class="get">
+    <div class="get__head">
+        <span class="eyebrow">What's Included</span>
+        <h2>What you get when you apply</h2>
+    </div>
+    <div class="get__grid">
+        <div class="get__item">
+            <span class="get__check">&#10003;</span>
+            <div>
+                <h3>Personalized nutrition plan</h3>
+                <p>Hormone-first, single-ingredient food built around your schedule and goals.</p>
+            </div>
+        </div>
+        <div class="get__item">
+            <span class="get__check">&#10003;</span>
+            <div>
+                <h3>Custom training program</h3>
+                <p>Built around your equipment, experience, and recovery — not a generic template.</p>
+            </div>
+        </div>
+        <div class="get__item">
+            <span class="get__check">&#10003;</span>
+            <div>
+                <h3>Weekly check-ins</h3>
+                <p>Direct access to me for accountability, form checks, and plan adjustments.</p>
+            </div>
+        </div>
+        <div class="get__item">
+            <span class="get__check">&#10003;</span>
+            <div>
+                <h3>Lifestyle coaching</h3>
+                <p>Sleep, stress, sunlight, and recovery — the habits that actually move the needle.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <a href="https://instagram.com/trainedbywill_" target="_blank" rel="noopener" class="footer__ig">@trainedbywill_</a>
+    <p>&copy; 2026 Trained by Will. All rights reserved.</p>
+</footer>
 
 <script>
 (function () {
