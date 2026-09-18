@@ -80,17 +80,10 @@
     .btn--full{ width:100%; }
 
     /* ===== Hero ===== */
-    /* No photo wired in yet — swap .hero__media for an <img> (see
-       TBW-Landing's markup) once Will's real training photos are ready. */
     .hero{ position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; }
-    .hero__media{
-        position:absolute; inset:0; z-index:0;
-        background:
-            radial-gradient(ellipse 900px 600px at 60% 0%, rgba(229,52,42,.22), transparent 60%),
-            radial-gradient(ellipse 700px 500px at 10% 100%, rgba(229,52,42,.10), transparent 55%),
-            linear-gradient(160deg, #17171a 0%, var(--bg) 60%);
-    }
-    .hero__gradient{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,10,11,0) 0%, rgba(10,10,11,.2) 60%, var(--bg) 100%); }
+    .hero__media{ position:absolute; inset:0; z-index:0; }
+    .hero__media img{ width:100%; height:100%; object-fit:cover; object-position:50% 30%; transform:scale(1.08); }
+    .hero__gradient{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,10,11,.35) 0%, rgba(10,10,11,.15) 30%, rgba(10,10,11,.92) 80%, var(--bg) 100%); }
     .hero__content{ position:relative; z-index:2; padding:140px 24px 90px; max-width:900px; margin:0 auto; width:100%; }
     .kicker{ font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color: var(--accent); margin-bottom:18px; }
     .hero__headline{ font-size: clamp(2.2rem, 6.5vw, 4.4rem); color:#fff; margin-bottom:22px; }
@@ -193,6 +186,7 @@
 <!-- ============ HERO ============ -->
 <section class="hero">
     <div class="hero__media">
+        <img src="images/will-hero.jpg" alt="Will training with a kettlebell">
         <div class="hero__gradient"></div>
     </div>
     <div class="hero__content">
