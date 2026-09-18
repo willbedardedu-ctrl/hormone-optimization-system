@@ -381,6 +381,11 @@
 
 <script>
 (function () {
+    // Paste the "Web app URL" from your Apps Script deployment here.
+    // See README / setup notes for how to get this from the "Coaching Leads"
+    // Google Sheet (Extensions > Apps Script > Deploy > New deployment).
+    const SHEET_ENDPOINT = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+
     const steps = Array.from(document.querySelectorAll('.step'));
     const progressFill = document.getElementById('progressFill');
     const form = document.getElementById('quiz');
@@ -477,13 +482,28 @@
 
         if (!valid) return;
 
-        // Persist the lead locally. Wire this up to your CRM / email
-        // service by replacing this block with a fetch() POST call.
+        // Local backup copy, in case the network request below fails.
         try {
             const leads = JSON.parse(localStorage.getItem('coachingLeads') || '[]');
             leads.push({ ...answers, submittedAt: new Date().toISOString() });
             localStorage.setItem('coachingLeads', JSON.stringify(leads));
         } catch (err) { /* localStorage unavailable, ignore */ }
+
+        // Send the lead to the "Coaching Leads" Google Sheet via an Apps
+        // Script web app endpoint. mode: 'no-cors' + a text/plain content
+        // type avoids a CORS preflight (which Apps Script doesn't handle),
+        // at the cost of not being able to read back the response — this
+        // is a fire-and-forget request.
+        if (SHEET_ENDPOINT && SHEET_ENDPOINT.indexOf('PASTE_YOUR') === -1) {
+            fetch(SHEET_ENDPOINT, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(answers)
+            }).catch(err => console.error('Lead submission failed:', err));
+        } else {
+            console.warn('SHEET_ENDPOINT is not configured; lead was only saved locally.');
+        }
 
         form.style.display = 'none';
         progressFill.style.width = '100%';
