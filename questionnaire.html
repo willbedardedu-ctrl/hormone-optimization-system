@@ -80,28 +80,18 @@
     .btn--full{ width:100%; }
 
     /* ===== Hero ===== */
-    .hero{ position:relative; min-height:88svh; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; }
+    /* Kept short and single-purpose: identify the brand and point straight
+       at the form below — the form is the point of this page, not the hero. */
+    .hero{ position:relative; min-height:52svh; display:flex; flex-direction:column; justify-content:center; overflow:hidden; }
     .hero__media{ position:absolute; inset:0; z-index:0; }
     .hero__media img{ width:100%; height:100%; object-fit:cover; object-position:50% 42%; transform:scale(1.08); }
-    .hero__gradient{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,10,11,.4) 0%, rgba(10,10,11,.2) 35%, rgba(10,10,11,.92) 85%, var(--bg) 100%); }
-    .hero__content{ position:relative; z-index:2; padding:140px 24px 70px; max-width: var(--container); margin:0 auto; width:100%; text-align:center; }
+    .hero__gradient{ position:absolute; inset:0; background: linear-gradient(180deg, rgba(10,10,11,.45) 0%, rgba(10,10,11,.25) 40%, rgba(10,10,11,.92) 88%, var(--bg) 100%); }
+    .hero__content{ position:relative; z-index:2; padding:110px 24px 50px; max-width: var(--container); margin:0 auto; width:100%; text-align:center; }
     .kicker{ font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color: var(--accent); margin-bottom:16px; }
-    .hero__headline{ font-size: clamp(2rem, 6vw, 3.2rem); color:#fff; margin-bottom:20px; text-shadow: 0 4px 24px rgba(0,0,0,.5); }
-    .hero__subhead{ font-size: clamp(1rem,2vw,1.1rem); color: var(--text-dim); max-width:520px; margin:0 auto; }
-    .hero__scroll{
-        position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:2;
-        display:flex; flex-direction:column; align-items:center; gap:8px;
-        font-size:11px; letter-spacing:.15em; text-transform:uppercase; color: var(--text-faint); font-weight:600;
-    }
-    .hero__scroll span{ width:1px; height:30px; background: linear-gradient(var(--text-faint), transparent); position:relative; overflow:hidden; }
-    .hero__scroll span::after{ content:''; position:absolute; top:-100%; left:0; width:100%; height:100%; background: var(--accent); animation: scrollLine 2s ease-in-out infinite; }
-    @keyframes scrollLine{ 0%{ top:-100%; } 60%{ top:100%; } 100%{ top:100%; } }
+    .hero__headline{ font-size: clamp(1.8rem, 5vw, 2.6rem); color:#fff; margin-bottom:28px; text-shadow: 0 4px 24px rgba(0,0,0,.5); }
 
     /* ===== Quiz section ===== */
-    .quiz-section{ padding: 90px 0 110px; background: var(--bg); }
-    .quiz-section__head{ text-align:center; max-width:600px; margin:0 auto 40px; }
-    .quiz-section__head h2{ font-size: clamp(1.6rem, 3.5vw, 2.2rem); color:#fff; margin-bottom:12px; }
-    .quiz-section__head p{ color: var(--text-dim); font-size:1rem; }
+    .quiz-section{ padding: 50px 0 110px; background: var(--bg); }
 
     .card{
         position:relative; max-width: var(--container); margin:0 auto; width:100%;
@@ -215,16 +205,9 @@
     .footer p{ color: var(--text-faint); font-size:.8rem; margin-top:16px; }
 
     @media (max-width:640px){
-        .hero__content{ padding:120px 20px 60px; }
+        .hero__content{ padding:100px 20px 40px; }
         .card{ padding:36px 24px; }
         .steps__grid, .transformations__grid, .get__grid{ grid-template-columns: 1fr; }
-    }
-
-    /* On wide screens a tall portrait photo stretched to a wide 88svh hero
-       crops down to mostly empty background. Cap the hero height so the
-       subject fills the frame the way it does on narrower viewports. */
-    @media (min-width:900px){
-        .hero{ min-height: 660px; }
     }
 </style>
 </head>
@@ -247,21 +230,12 @@
     <div class="hero__content">
         <p class="kicker">@trainedbywill_ &nbsp;&middot;&nbsp; apply for 1:1 coaching</p>
         <h1 class="hero__headline">TRAINED BY WILL<br><span class="text-accent">Online Coaching</span></h1>
-        <p class="hero__subhead">A hormone-first coaching program built around real food, real training, and real accountability.</p>
+        <a href="#apply" class="btn btn--primary btn--lg">Apply now &darr;</a>
     </div>
-    <a href="#apply" class="hero__scroll" aria-label="Scroll down">
-        <span></span>
-        Scroll
-    </a>
 </section>
 
 <!-- ============ APPLICATION ============ -->
 <section class="quiz-section" id="apply">
-    <div class="quiz-section__head">
-        <h2>Apply for 1:1 Coaching</h2>
-        <p>A few quick questions about your goals, your training, and what's actually gotten in the way so far. Takes about two minutes — then I'll follow up directly.</p>
-    </div>
-
     <div class="card">
         <div class="progress-track">
             <div class="progress-fill" id="progressFill"></div>
