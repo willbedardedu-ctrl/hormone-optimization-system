@@ -576,6 +576,17 @@
             console.warn('SHEET_ENDPOINT is not configured; lead was only saved locally.');
         }
 
+        // Fire the email notification via the Vercel serverless function
+        // (/api/notify). Same-origin on the deployed site, so a normal POST
+        // works. Fire-and-forget: independent of the sheet capture above, and
+        // a failure here (e.g. when opened as a local file or on GitHub Pages
+        // where there's no serverless backend) never blocks the submission.
+        fetch('/api/notify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(answers)
+        }).catch(err => console.error('Notification failed:', err));
+
         form.style.display = 'none';
         progressFill.style.width = '100%';
 
