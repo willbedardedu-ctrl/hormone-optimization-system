@@ -1,6 +1,6 @@
 # Wiring the questionnaire to your "Coaching Leads" CRM
 
-Submissions from `questionnaire.html` are sent to a Google Sheet so you can
+Submissions from `index.html` are sent to a Google Sheet so you can
 open it any time and see who applied, then follow up.
 
 The sheet has already been created in your Google Drive:
@@ -60,7 +60,7 @@ from here.
    unverified app — this is expected since it's your own script; click
    **Advanced → Go to (project name)** to proceed).
 7. Copy the **Web app URL** it gives you (ends in `/exec`).
-8. In `questionnaire.html`, find this line near the top of the `<script>`
+8. In `index.html`, find this line near the top of the `<script>`
    block:
 
    ```javascript
