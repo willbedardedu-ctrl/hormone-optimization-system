@@ -21,19 +21,13 @@ from here.
 ## One-time setup (~3 minutes)
 
 1. Open the sheet (link above) → **Extensions → Apps Script**.
-2. Delete any starter code and paste this in. It does two things on every
-   submission: appends a row to the sheet **and** emails you a
-   notification through Resend. Fill in the two values at the top of
-   `sendNotification` (your Resend API key and the email to notify) —
-   see the "Resend setup" section below for where the API key comes from.
+2. Delete any starter code and paste this in:
 
    ```javascript
    function doGet(e) {
+     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
      var data = e.parameter;
 
-     // 1) Append the lead to the sheet (this always runs first, so the
-     //    row is saved even if the email step below ever fails).
-     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
      sheet.appendRow([
        new Date(),
        data.name || '',
@@ -48,79 +42,16 @@ from here.
        '' // Status - fill in manually as you follow up
      ]);
 
-     // 2) Send yourself an email notification via Resend.
-     try {
-       sendNotification(data);
-     } catch (err) {
-       // Never let an email failure lose the lead — it's already in the sheet.
-       console.error('Resend notification failed: ' + err);
-     }
-
      return ContentService
        .createTextOutput(JSON.stringify({ status: 'ok' }))
        .setMimeType(ContentService.MimeType.JSON);
-   }
-
-   function sendNotification(data) {
-     var RESEND_API_KEY = 'PASTE_YOUR_RESEND_API_KEY_HERE'; // starts with re_
-     var NOTIFY_EMAIL   = 'you@example.com';                // where you want to be notified
-     // Until you verify your own domain in Resend, keep this exact "from"
-     // address — Resend lets onboarding@resend.dev send to your own
-     // account email with no domain setup. Swap it for your domain later.
-     var FROM = 'Trained by Will <onboarding@resend.dev>';
-
-     var rows = [
-       ['Name', data.name], ['Email', data.email], ['Phone', data.phone],
-       ['Instagram', data.instagram], ['Goal', data.goal], ['Age', data.age],
-       ['Committed', data.committed], ['Biggest obstacle', data.obstacle],
-       ['Investment level', data.budget]
-     ];
-     var html = '<h2>New coaching application</h2>';
-     rows.forEach(function (r) {
-       html += '<p><strong>' + r[0] + ':</strong> ' + (r[1] || '-') + '</p>';
-     });
-
-     var payload = {
-       from: FROM,
-       to: [NOTIFY_EMAIL],
-       subject: 'New application: ' + (data.name || 'Someone') + (data.goal ? ' — ' + data.goal : ''),
-       html: html
-     };
-     if (data.email) payload.reply_to = data.email; // reply goes straight to the applicant
-
-     UrlFetchApp.fetch('https://api.resend.com/emails', {
-       method: 'post',
-       contentType: 'application/json',
-       headers: { Authorization: 'Bearer ' + RESEND_API_KEY },
-       payload: JSON.stringify(payload),
-       muteHttpExceptions: true
-     });
    }
    ```
 
    Note: this uses `doGet` (not `doPost`). Apps Script's own redirect
    downgrades POST requests to GET before they reach your script, so the
    site sends the lead data as URL query parameters instead of a POST
-   body — `doGet` with `e.parameter` is what actually receives it. The
-   Resend API key lives only in this server-side script, never in the
-   website, so it stays private.
-
-## Resend setup (~2 minutes)
-
-1. Sign in at [resend.com](https://resend.com) (free tier is plenty).
-2. Go to **API Keys → Create API Key**, give it a name, and copy the key
-   (it starts with `re_`). You only see it once.
-3. Paste it into `RESEND_API_KEY` in the script above, and set
-   `NOTIFY_EMAIL` to the address where you want the alerts (use the same
-   email your Resend account is registered under — `onboarding@resend.dev`
-   is only allowed to send to your own account email until you verify a
-   domain).
-4. Later, to send from your own domain (e.g. `apply@trainedbywill.com`):
-   in Resend go to **Domains → Add Domain**, add the DNS records it gives
-   you, then change `FROM` in the script to use that address.
-
-When you edit the script after this, remember to push a **New version**
-(see the note at the bottom) so the change goes live.
+   body — `doGet` with `e.parameter` is what actually receives it.
 
 3. Click **Deploy → New deployment**.
 4. Click the gear icon next to "Select type" → choose **Web app**.
@@ -157,3 +88,38 @@ those changes do **not** take effect at the existing `/exec` URL until you
 push a new version. Go to **Deploy → Manage deployments**, click the
 pencil (edit) icon on the active deployment, set **Version** to
 **New version**, and click **Deploy** again. The URL stays the same.
+
+## Email notifications (Resend via Vercel)
+
+The Google Sheet is the record of every lead. On top of that, the site
+emails you the moment someone submits, so you don't have to watch the
+sheet. This runs in a small serverless function (`api/notify.js`)
+deployed with the site on Vercel, and the form fires it alongside the
+sheet submission. The two are independent — if the email ever fails, the
+lead is still in the sheet.
+
+The code is already in the repo. The only thing to configure is the
+Resend API key, which lives as a Vercel environment variable so it stays
+secret (never in the code or the browser):
+
+1. **Get a Resend API key** — sign in at [resend.com](https://resend.com)
+   → **API Keys → Create API Key** → copy it (starts with `re_`, shown
+   once).
+2. **Add it to Vercel** — open the `tbw` project → **Settings →
+   Environment Variables** → add:
+   - Name: `RESEND_API_KEY`, Value: your `re_...` key (apply to all
+     environments)
+   - Optionally `NOTIFY_EMAIL` = the address to alert. If you skip it, it
+     falls back to the default in `api/notify.js`. Use the email your
+     Resend account is registered under — the `onboarding@resend.dev`
+     sender can only deliver to your own account email until you verify a
+     domain.
+3. **Redeploy** so the new env var is picked up — Vercel → Deployments →
+   latest → **Redeploy** (or just push any commit).
+4. **Test** — submit the form once and confirm both a new sheet row *and*
+   an email arrive.
+
+To send from your own domain later (e.g. `apply@trainedbywill.com`
+instead of `onboarding@resend.dev`): in Resend go to **Domains → Add
+Domain**, add the DNS records, then change the `from` address in
+`api/notify.js`.
