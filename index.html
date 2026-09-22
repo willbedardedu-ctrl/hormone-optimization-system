@@ -184,6 +184,17 @@
     .transformation-card__body h3{ font-size:1rem; color:#fff; margin-bottom:8px; }
     .transformation-card__body p{ color: var(--text-dim); font-size:.92rem; font-style:italic; }
 
+    /* Real before/after pair */
+    .ba{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:16px; }
+    .ba figure{ margin:0; position:relative; border-radius: var(--radius-md); overflow:hidden; aspect-ratio: 3/5; }
+    .ba img{ width:100%; height:100%; object-fit:cover; object-position:50% 20%; }
+    .ba figcaption{
+        position:absolute; top:8px; left:8px; font-family: var(--font-display); font-weight:800;
+        font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:#fff;
+        background: rgba(10,10,11,.7); padding:4px 8px; border-radius:999px;
+    }
+    .ba figure.after figcaption{ background: var(--accent); }
+
     /* ===== What you get ===== */
     .get{ padding: 100px 0; background: var(--bg-alt); }
     .get__head{ text-align:center; max-width:600px; margin:0 auto 60px; }
@@ -386,10 +397,19 @@
     </div>
     <div class="transformations__grid">
         <div class="transformation-card">
-            <div class="transformation-card__photo">Add client before/after photo</div>
+            <div class="ba">
+                <figure class="before">
+                    <img src="images/ethan-before.jpg" alt="Ethan before coaching" loading="lazy">
+                    <figcaption>Before</figcaption>
+                </figure>
+                <figure class="after">
+                    <img src="images/ethan-after.jpg" alt="Ethan after coaching" loading="lazy">
+                    <figcaption>After</figcaption>
+                </figure>
+            </div>
             <div class="transformation-card__body">
-                <h3>Client Name</h3>
-                <p>"Placeholder testimonial — swap in a real client quote here."</p>
+                <h3>Ethan</h3>
+                <p>Leaner, more defined, and visibly stronger — real results from consistent training and a hormone-first approach.</p>
             </div>
         </div>
         <div class="transformation-card">
