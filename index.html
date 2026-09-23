@@ -154,8 +154,11 @@
     .summary strong{ color:#fff; }
 
     /* ===== How it works ===== */
-    .steps{ padding: 100px 0; background: var(--bg-alt); }
-    .steps__head{ text-align:center; max-width:600px; margin:0 auto 60px; }
+    /* Grey band that fades in from and back to the black sections around it,
+       so there's no hard line where the backgrounds meet. */
+    .steps{ padding: 100px 0; background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 140px, var(--bg-alt) calc(100% - 140px), var(--bg) 100%); }
+    .steps__head{ text-align:center; max-width:640px; margin:0 auto 60px; }
+    .steps__head .eyebrow{ font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color: var(--accent); margin-bottom:14px; display:block; }
     .steps__head h2{ font-size: clamp(1.8rem, 4vw, 2.6rem); color:#fff; margin-bottom:14px; }
     .steps__head p{ color: var(--text-dim); font-size:1.05rem; }
     .steps__grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:40px; max-width:1100px; margin:0 auto; }
@@ -196,7 +199,7 @@
     .ba figure.after figcaption{ background: var(--accent); }
 
     /* ===== What you get ===== */
-    .get{ padding: 100px 0; background: var(--bg-alt); }
+    .get{ padding: 100px 0; background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 140px, var(--bg-alt) calc(100% - 140px), var(--bg) 100%); }
     .get__head{ text-align:center; max-width:600px; margin:0 auto 60px; }
     .get__head .eyebrow{ font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color: var(--accent); margin-bottom:14px; display:block; }
     .get__head h2{ font-size: clamp(1.8rem, 4vw, 2.6rem); color:#fff; }
@@ -367,8 +370,9 @@
 <!-- ============ HOW IT WORKS ============ -->
 <section class="steps">
     <div class="steps__head">
-        <h2>Progress, not perfection.</h2>
-        <p>Here's exactly what happens after you hit submit.</p>
+        <span class="eyebrow">The 90-Day Blueprint</span>
+        <h2>Built for men who've hit a ceiling.</h2>
+        <p>You already put in the work. This is the plan that finally moves the needle. Here's exactly what happens after you apply.</p>
     </div>
     <div class="steps__grid">
         <div class="steps__item">
