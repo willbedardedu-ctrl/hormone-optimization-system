@@ -135,6 +135,7 @@
     .nav-row{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:8px; }
     .nav-row .btn--primary{ margin-left:auto; }
 
+    .consent-note{ font-size:.72rem; color: var(--text-faint); margin:2px 0 18px; line-height:1.5; }
     .error-msg{ color:#ff8a80; font-size:.85rem; margin:-10px 0 16px; display:none; }
     .error-msg.visible{ display:block; }
 
@@ -345,6 +346,8 @@
 
                 <label class="field-label" for="instagram">Instagram handle (optional)</label>
                 <input type="text" id="instagram" data-field="instagram" placeholder="@yourhandle">
+
+                <p class="consent-note">By submitting, you agree to receive texts and emails about your application. Reply STOP to opt out.</p>
 
                 <div class="nav-row">
                     <button type="button" class="btn btn--ghost" data-back>&larr; Back</button>
