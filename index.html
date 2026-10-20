@@ -506,6 +506,31 @@
     const answers = {};
     let current = 0;
 
+    // A per-visit id so each applicant maps to ONE row in the sheet, even
+    // though their answers are pushed step by step. The Apps Script finds
+    // the row with this id and updates it (or creates it the first time),
+    // so clicking "Next" never spawns duplicate rows for the same person.
+    const sessionId = 'L' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+
+    // Push whatever has been answered so far to the "Coaching Leads" Google
+    // Sheet. GET with query params + mode:'no-cors' is required because Apps
+    // Script's internal redirect downgrades POST to GET (see CRM_SETUP.md);
+    // it's fire-and-forget, so we can't read the response. `complete` flags
+    // whether this is a finished application (true) or a partial, in-progress
+    // one (false) so the coach can filter real leads from drop-offs. This only
+    // ever talks to the Sheet, never to /api/notify, so partial saves never
+    // trigger an email.
+    function pushToSheet(complete) {
+        if (!SHEET_ENDPOINT || SHEET_ENDPOINT.indexOf('PASTE_YOUR') !== -1) {
+            console.warn('SHEET_ENDPOINT is not configured; lead was only saved locally.');
+            return;
+        }
+        const payload = { ...answers, sid: sessionId, complete: complete ? 'yes' : 'no' };
+        const params = new URLSearchParams(payload).toString();
+        fetch(SHEET_ENDPOINT + '?' + params, { method: 'GET', mode: 'no-cors' })
+            .catch(err => console.error('Lead sync failed:', err));
+    }
+
     function updateProgress() {
         const pct = ((current) / (steps.length - 1)) * 100;
         progressFill.style.width = Math.min(pct, 100) + '%';
@@ -558,6 +583,10 @@
                 err.classList.remove('visible');
             }
 
+            // Save progress so far to the sheet (marked partial). If they
+            // abandon the form here, the coach still sees what they answered.
+            pushToSheet(false);
+
             if (idx < steps.length - 1) showStep(idx + 1);
         });
     });
@@ -603,19 +632,11 @@
             localStorage.setItem('coachingLeads', JSON.stringify(leads));
         } catch (err) { /* localStorage unavailable, ignore */ }
 
-        // Send the lead to the "Coaching Leads" Google Sheet via an Apps
-        // Script web app endpoint. This uses a GET request with the data
-        // as query params (rather than a POST body) because Apps Script's
-        // internal redirect downgrades POST to GET, which would otherwise
-        // invoke doGet with no data. mode: 'no-cors' means we can't read
-        // the response — this is a fire-and-forget request.
-        if (SHEET_ENDPOINT && SHEET_ENDPOINT.indexOf('PASTE_YOUR') === -1) {
-            const params = new URLSearchParams(answers).toString();
-            fetch(SHEET_ENDPOINT + '?' + params, { method: 'GET', mode: 'no-cors' })
-                .catch(err => console.error('Lead submission failed:', err));
-        } else {
-            console.warn('SHEET_ENDPOINT is not configured; lead was only saved locally.');
-        }
+        // Mark this applicant's sheet row COMPLETE and flush the full set of
+        // answers (including contact info, which is only collected on this
+        // final step). This updates the same row the partial saves above
+        // created, rather than adding a new one.
+        pushToSheet(true);
 
         // Fire the email notification via the Vercel serverless function
         // (/api/notify). Same-origin on the deployed site, so a normal POST

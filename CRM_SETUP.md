@@ -8,9 +8,20 @@ the moment someone fills out the form.
 The sheet has already been created in your Google Drive:
 **Coaching Leads** — https://docs.google.com/spreadsheets/d/1joObxfCpVkqJrj0Dw9D_0xRWr9UQbjTsY9zPDwLlytc/edit
 
-It has columns: `Timestamp, Name, Email, Phone, Instagram, Age, Goal,
-Committed, Obstacle, Budget, Status`. Add your own notes in the `Status`
-column as you follow up (e.g. "contacted", "booked call", "closed").
+It has columns: `Timestamp, Session ID, Completed, Name, Email, Phone,
+Instagram, Age, Goal, Committed, Obstacle, Budget, Status`.
+
+- **Session ID** is an internal id that lets the script keep one row per
+  applicant as their answers come in step by step. You can ignore it (or
+  hide the column).
+- **Completed** reads `partial` while someone is still working through the
+  form and flips to `COMPLETE` when they actually submit. Filter this column
+  to `COMPLETE` to see only finished applications; `partial` rows are people
+  who started but dropped off (useful for seeing where they quit, but note
+  they won't have contact info unless they reached the final step).
+- Add your own notes in the **Status** column as you follow up (e.g.
+  "contacted", "booked call", "closed"). The script preserves whatever you
+  type there.
 
 The only piece left is a small Google Apps Script that receives form
 submissions and appends them as new rows. This step has to be done once,
@@ -25,26 +36,61 @@ from here.
 
    ```javascript
    function doGet(e) {
-     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-     var data = e.parameter;
+     var lock = LockService.getScriptLock();
+     lock.waitLock(30000); // serialize rapid "Next"-click requests from one visitor
+     try {
+       var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+       var data = e.parameter;
 
-     sheet.appendRow([
-       new Date(),
-       data.name || '',
-       data.email || '',
-       data.phone || '',
-       data.instagram || '',
-       data.age || '',
-       data.goal || '',
-       data.committed || '',
-       data.obstacle || '',
-       data.budget || '',
-       '' // Status - fill in manually as you follow up
-     ]);
+       var headers = ['Timestamp','Session ID','Completed','Name','Email',
+                      'Phone','Instagram','Age','Goal','Committed',
+                      'Obstacle','Budget','Status'];
 
-     return ContentService
-       .createTextOutput(JSON.stringify({ status: 'ok' }))
-       .setMimeType(ContentService.MimeType.JSON);
+       // Write a header row the first time the sheet is used.
+       if (sheet.getLastRow() === 0) sheet.appendRow(headers);
+
+       var sid = data.sid || '';
+       var completed = (data.complete === 'yes') ? 'COMPLETE' : 'partial';
+
+       // Find this visitor's existing row (Session ID is column B).
+       var rowIndex = -1, existing = [];
+       if (sid) {
+         var values = sheet.getDataRange().getValues();
+         for (var i = 1; i < values.length; i++) {
+           if (values[i][1] === sid) { rowIndex = i + 1; existing = values[i]; break; }
+         }
+       }
+
+       // Only overwrite a cell when the new payload has that value, so a
+       // later partial push never blanks out something answered earlier.
+       var row = [
+         new Date(),
+         sid,
+         completed,
+         data.name      || existing[3]  || '',
+         data.email     || existing[4]  || '',
+         data.phone     || existing[5]  || '',
+         data.instagram || existing[6]  || '',
+         data.age       || existing[7]  || '',
+         data.goal      || existing[8]  || '',
+         data.committed || existing[9]  || '',
+         data.obstacle  || existing[10] || '',
+         data.budget    || existing[11] || '',
+         existing[12]   || ''   // Status - preserve your manual follow-up notes
+       ];
+
+       if (rowIndex > 0) {
+         sheet.getRange(rowIndex, 1, 1, row.length).setValues([row]);
+       } else {
+         sheet.appendRow(row);
+       }
+
+       return ContentService
+         .createTextOutput(JSON.stringify({ status: 'ok' }))
+         .setMimeType(ContentService.MimeType.JSON);
+     } finally {
+       lock.releaseLock();
+     }
    }
    ```
 
@@ -52,6 +98,23 @@ from here.
    downgrades POST requests to GET before they reach your script, so the
    site sends the lead data as URL query parameters instead of a POST
    body — `doGet` with `e.parameter` is what actually receives it.
+
+   How it captures partial applications: the site generates a random
+   `Session ID` when someone opens the form and sends it with every "Next"
+   click, along with whatever they've answered so far. The script looks for
+   a row with that id. If it finds one it updates that row; if not, it
+   creates a new one. So each applicant stays on a single row that fills in
+   live, and the `Completed` column flips from `partial` to `COMPLETE` only
+   when they submit. Email notifications are sent by a separate path (the
+   Vercel function), which the form only calls on final submit, so partial
+   saves never email you.
+
+   **Clearing the old data first:** this layout adds the `Session ID` and
+   `Completed` columns in front of the contact fields, so it won't line up
+   with rows from the previous version. Before you deploy this, open the
+   sheet and delete the existing rows (including the old header row) so the
+   script can write the new header cleanly. Any real leads from before are
+   still safe in your email; this only clears test submissions.
 
 3. Click **Deploy → New deployment**.
 4. Click the gear icon next to "Select type" → choose **Web app**.
