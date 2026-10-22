@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 <style>
     :root{
         --bg: #0a0a0b;
@@ -351,7 +352,7 @@
 
                 <div class="nav-row">
                     <button type="button" class="btn btn--ghost" data-back>&larr; Back</button>
-                    <button type="submit" class="btn btn--primary">Submit Application &rarr;</button>
+                    <button type="submit" class="btn btn--primary">Schedule Call Now &rarr;</button>
                 </div>
             </div>
 
@@ -360,8 +361,10 @@
             <!-- Thank you -->
             <div id="thankyou" style="display:none;">
                 <div class="check">&#10003;</div>
-                <h2>Application received</h2>
-                <p>Thanks for sharing your goals. I'll review your answers and reach out within 24 hours.</p>
+                <h2>You're in. Book your call below.</h2>
+                <p>Pick a time that works for you and we'll talk through your goals and how coaching would work.</p>
+                <!-- Calendly inline widget is initialized here by JS on submit -->
+                <div id="calendly-embed" style="min-width:320px;height:680px;margin-top:24px;"></div>
                 <div class="summary" id="summaryBox"></div>
             </div>
     </div>
@@ -660,6 +663,25 @@
             <div><strong>Contact:</strong> ${escapeHtml(answers.name || '-')} &middot; ${escapeHtml(answers.email || '-')} &middot; ${escapeHtml(answers.phone || '-')}</div>
         `;
         document.getElementById('thankyou').style.display = 'block';
+
+        // Show the booking calendar right on the confirmation screen so they
+        // can book a call immediately. Styled to match the dark brand, and
+        // prefilled with the name/email they just entered so they don't retype
+        // it. (The Twilio text with the same link still goes out separately via
+        // /api/notify, so they get it both ways.)
+        if (window.Calendly && typeof Calendly.initInlineWidget === 'function') {
+            Calendly.initInlineWidget({
+                url: 'https://calendly.com/willbedard-edu/30min?hide_gdpr_banner=1&background_color=161618&text_color=f2f1ee&primary_color=e5342a',
+                parentElement: document.getElementById('calendly-embed'),
+                prefill: {
+                    name: answers.name || '',
+                    email: answers.email || ''
+                }
+            });
+        }
+
+        // Bring the confirmation into view in case they were scrolled down.
+        document.getElementById('thankyou').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
     function escapeHtml(str) {
@@ -671,6 +693,7 @@
     showStep(0);
 })();
 </script>
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
 </body>
 </html>
