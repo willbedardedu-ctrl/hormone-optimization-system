@@ -258,7 +258,7 @@
 
             <!-- Step 1: Primary Goal -->
             <div class="step active" data-step="0">
-                <div class="step-eyebrow">Question 1 of 6</div>
+                <div class="step-eyebrow">Question 1 of 5</div>
                 <h2>What's your main goal right now?</h2>
                 <div class="options" data-field="goal">
                     <button type="button" class="option-btn" data-value="Build serious muscle and pack on size">Build serious muscle &amp; pack on size</button>
@@ -273,7 +273,7 @@
 
             <!-- Step 2: Age -->
             <div class="step" data-step="1">
-                <div class="step-eyebrow">Question 2 of 6</div>
+                <div class="step-eyebrow">Question 2 of 5</div>
                 <h2>What's your age range?</h2>
                 <div class="options" data-field="age">
                     <button type="button" class="option-btn" data-value="18-24">18 to 24</button>
@@ -289,7 +289,7 @@
 
             <!-- Step 3: Commitment -->
             <div class="step" data-step="2">
-                <div class="step-eyebrow">Question 3 of 6</div>
+                <div class="step-eyebrow">Question 3 of 5</div>
                 <h2>Coaching only works if you show up. Are you ready to commit 100% to a structured plan?</h2>
                 <div class="yesno-row" data-field="committed">
                     <button type="button" class="option-btn" data-value="Yes">Yes</button>
@@ -303,7 +303,7 @@
 
             <!-- Step 4: Biggest obstacle -->
             <div class="step" data-step="3">
-                <div class="step-eyebrow">Question 4 of 6</div>
+                <div class="step-eyebrow">Question 4 of 5</div>
                 <h2>What's the biggest thing holding you back from reaching your goal?</h2>
                 <textarea data-field="obstacle" placeholder="e.g. inconsistent sleep, no clear plan, low energy in the gym..."></textarea>
                 <div class="error-msg" data-error="obstacle">Please share a few words so we understand your situation.</div>
@@ -313,24 +313,9 @@
                 </div>
             </div>
 
-            <!-- Step 5: Investment level -->
+            <!-- Step 5: Contact Info -->
             <div class="step" data-step="4">
-                <div class="step-eyebrow">Question 5 of 6</div>
-                <h2>What level of investment are you ready to make in your health?</h2>
-                <div class="options" data-field="budget">
-                    <button type="button" class="option-btn" data-value="Just looking for something basic, budget under $200/mo">Just looking for something basic, budget under $200/mo</button>
-                    <button type="button" class="option-btn" data-value="Budget is tight, but I'm committed if results are guaranteed">Budget is tight, but I'm committed if results are guaranteed</button>
-                    <button type="button" class="option-btn" data-value="My goals matter to me, I'm ready to invest fully">My goals matter to me, I'm ready to invest fully</button>
-                </div>
-                <div class="nav-row">
-                    <button type="button" class="btn btn--ghost" data-back>&larr; Back</button>
-                    <button type="button" class="btn btn--primary" data-next disabled>Next &rarr;</button>
-                </div>
-            </div>
-
-            <!-- Step 6: Contact Info -->
-            <div class="step" data-step="5">
-                <div class="step-eyebrow">Question 6 of 6</div>
+                <div class="step-eyebrow">Question 5 of 5</div>
                 <h2>Almost done. Where should we send your results?</h2>
 
                 <label class="field-label" for="fullName">Full name</label>
@@ -659,7 +644,6 @@
         summaryBox.innerHTML = `
             <div><strong>Goal:</strong> ${escapeHtml(answers.goal || '-')}</div>
             <div><strong>Age:</strong> ${escapeHtml(answers.age || '-')}</div>
-            <div><strong>Investment level:</strong> ${escapeHtml(answers.budget || '-')}</div>
             <div><strong>Contact:</strong> ${escapeHtml(answers.name || '-')} &middot; ${escapeHtml(answers.email || '-')} &middot; ${escapeHtml(answers.phone || '-')}</div>
         `;
         document.getElementById('thankyou').style.display = 'block';
